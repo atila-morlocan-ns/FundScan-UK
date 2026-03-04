@@ -76,6 +76,25 @@ function mergeGrant(existing, update) {
         }
     }
 
+    // Update provenance on merge
+    if (update._provenance) {
+        const existingProv = existing._provenance || {};
+        existing._provenance = {
+            sourceUrl: update._provenance.sourceUrl || existingProv.sourceUrl,
+            firstDiscovered: existingProv.firstDiscovered || update._provenance.firstDiscovered,
+            lastVerified: update._provenance.lastVerified || new Date().toISOString(),
+            verificationCount: (existingProv.verificationCount || 0) + 1,
+            extractionMethod: update._provenance.extractionMethod || existingProv.extractionMethod,
+            contentHash: update._provenance.contentHash || existingProv.contentHash,
+            confidence: update._provenance.confidence || existingProv.confidence,
+        };
+    }
+
+    // Update confidence
+    if (update._confidence) {
+        existing._confidence = update._confidence;
+    }
+
     // Update timestamp
     if (changes.length > 0) {
         existing.lastUpdated = new Date().toISOString().split('T')[0];
@@ -114,11 +133,32 @@ function normalizeGrant(grant) {
     grant.eligibility = grant.eligibility || [];
     grant.tips = grant.tips || [];
 
-    // Remove internal fields for export
+    // Preserve provenance and confidence for export
     const clean = { ...grant };
-    delete clean._sourceUrl;
     delete clean._scrapedAt;
     delete clean._status;
+
+    // Keep _provenance and _confidence — they're needed for freshness tracking
+    // but rename to clean format for frontend
+    if (clean._provenance) {
+        clean.provenance = {
+            sourceUrl: clean._provenance.sourceUrl,
+            lastVerified: clean._provenance.lastVerified,
+            verificationCount: clean._provenance.verificationCount,
+            contentHash: clean._provenance.contentHash,
+        };
+        delete clean._provenance;
+    }
+    if (clean._confidence) {
+        clean.confidence = {
+            overall: clean._confidence.overall,
+            fields: Object.fromEntries(
+                Object.entries(clean._confidence.fields || {}).map(([k, v]) => [k, v.level])
+            ),
+        };
+        delete clean._confidence;
+    }
+    delete clean._sourceUrl;
 
     return clean;
 }

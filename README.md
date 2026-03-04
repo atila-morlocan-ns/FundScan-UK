@@ -28,9 +28,10 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 
 ### 🤖 Grant Research Agent Pipeline (`agents/`)
 - **Researcher Agent** — Scrapes 9 UK grant portals (IFS, UKRI, SBRI, NIHR, gov.uk) + Gemini LLM research
-- **Scraper Agent** — Cheerio HTML parsing → Gemini AI structured data extraction
-- **Database Manager** — Schema validation, Levenshtein deduplication, merge with changelog, JS export
-- **Pipeline Runner** — Orchestrates all 3 agents in sequence
+- **🛡️ URL Verifier** — Liveness verification with HEAD checks, domain whitelist (13 trusted sites), keyword scoring (28 grant keywords), date/amount pattern detection. Eliminates fabricated URLs before scraping
+- **Scraper Agent** — Dual-extract: regex pre-extraction from HTML + Gemini AI extraction, with per-field confidence scoring (HIGH/MEDIUM/LOW) and cross-reference conflict detection
+- **Database Manager** — Schema validation, Levenshtein deduplication, provenance tracking (sourceUrl, lastVerified, contentHash, verificationCount), merge with changelog, JS export
+- **Pipeline Runner** — Orchestrates all 4 agents in sequence with confidence stats summary
 
 ---
 
@@ -116,9 +117,10 @@ FundScan-UK/
 ├── agents/                      # 🤖 Grant research pipeline
 │   ├── config.js                # Search queries, schemas, rate limits
 │   ├── researcher.js            # Portal scraping + Gemini research
-│   ├── scraper.js               # Cheerio + Gemini data extraction
-│   ├── db-manager.js            # Validation, dedup, merge, export
-│   ├── run-pipeline.js          # Pipeline orchestrator
+│   ├── verifier.js              # 🛡️ URL liveness + keyword scoring
+│   ├── scraper.js               # Dual-extract: regex + Gemini + confidence
+│   ├── db-manager.js            # Validation, dedup, merge, provenance
+│   ├── run-pipeline.js          # 4-step pipeline orchestrator
 │   ├── utils.js                 # Shared: fetch, validate, similarity
 │   └── data/                    # Pipeline output files
 │       └── research-results.json
@@ -239,6 +241,15 @@ npm run build
 ---
 
 ## 📝 Changelog
+
+### v1.4.0 — 2026-03-04
+**Anti-Hallucination Pipeline**
+- 🛡️ URL Liveness Verifier: HEAD checks, domain whitelist (13 sites), keyword scoring (28 terms), date/amount detection
+- 🎯 Dual-Extract Confidence Scoring: regex pre-extraction vs Gemini cross-reference per field (amount, dates, status)
+- 📊 Source Provenance Tracking: sourceUrl, lastVerified, verificationCount, contentHash per grant
+- Hardened Gemini prompts: no date estimation, no amount guessing, explicit cross-reference warnings
+- Pipeline upgraded from 3 to 4 steps (Researcher → Verifier → Scraper → DB Manager)
+- Added `npm run agents:verify` script
 
 ### v1.3.0 — 2026-03-04
 **Grant Strategy Suite**

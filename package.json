@@ -9,6 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "agents:research": "node agents/researcher.js",
+    "agents:verify": "node agents/verifier.js",
     "agents:scrape": "node agents/scraper.js",
     "agents:update-db": "node agents/db-manager.js",
     "agents:run": "node agents/run-pipeline.js"
