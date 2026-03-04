@@ -7,6 +7,16 @@ const PROFILE_KEY = 'fundscan_profile';
 const LAST_VISIT_KEY = 'fundscan_last_visit';
 const SCAN_KEY = 'fundscan_last_scan';
 
+// Default profile for Nightingale & Sentinel
+const DEFAULT_PROFILE = {
+    companyName: 'Nightingale & Sentinel',
+    companyDesc: 'MedTech startup using computer vision and Vision Language Models (VLMs) to create an AI virtual witness for unwitnessed medical events — falls, seizures, and other critical incidents in elderly care. Addressing the £4.6 billion UK market in elderly falls and unwitnessed events.',
+    teamSize: '2-5',
+    fundingNeeded: 250000,
+    sectors: ['healthtech', 'ai'],
+    stages: ['mvp', 'revenue'],
+};
+
 export function getProfile() {
     try {
         const raw = localStorage.getItem(PROFILE_KEY);
@@ -14,7 +24,8 @@ export function getProfile() {
     } catch (e) {
         console.warn('Failed to load profile:', e);
     }
-    return null;
+    // Return default profile if none saved
+    return DEFAULT_PROFILE;
 }
 
 export function saveProfile(profile) {
