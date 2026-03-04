@@ -19,6 +19,13 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
+### 🎯 Grant Strategy Tools (NEW)
+- **📂 Evidence Vault** — Track 12 evidence types (market data, clinical results, IP, financials, letters of support, etc.) with per-funder readiness bars showing preparation level for IUK, SBRI, NIHR, HMRC, and more
+- **🧩 Funding Stack Planner** — Plan concurrent applications across multiple sources. Shows total stack value (£), status pipeline (Target → Preparing → Submitted → Won), and State Aid conflict warnings
+- **⏰ Deadline Sprint System** — 8-week reverse countdown for each open fund, with phase-based task lists (Discover → Draft → Evidence → Review → Polish → Submit)
+- **🏢 Funder Intelligence** — Hidden scoring rubrics, green/red flags, typical winner profiles, and pro tips for 6 funders (Innovate UK, UKRI, SBRI Healthcare, NIHR, HMRC, British Business Bank)
+- **🗺️ Regional Hub Mapper** — Surrey-focused: Enterprise M3 Growth Hub, KSS AHSN (MedTech adoption + falls prevention), Digital Catapult, University of Surrey (KTP partner), and regional investment funds
+
 ### 🤖 Grant Research Agent Pipeline (`agents/`)
 - **Researcher Agent** — Scrapes 9 UK grant portals (IFS, UKRI, SBRI, NIHR, gov.uk) + Gemini LLM research
 - **Scraper Agent** — Cheerio HTML parsing → Gemini AI structured data extraction
@@ -116,19 +123,24 @@ FundScan-UK/
 │   └── data/                    # Pipeline output files
 │       └── research-results.json
 ├── src/                         # 🎨 Frontend app
-│   ├── main.js                  # App shell, router, navigation
+│   ├── main.js                  # App shell, router, navigation (9 pages)
 │   ├── router.js                # Hash-based SPA router
-│   ├── store.js                 # Profile persistence (localStorage)
+│   ├── store.js                 # Profile + evidence + stack persistence
 │   ├── match-engine.js          # Match scoring algorithm
 │   ├── components.js            # Shared UI components
 │   ├── data/
-│   │   └── funding-sources.js   # 33 curated funding sources
+│   │   ├── funding-sources.js   # 33 curated funding sources
+│   │   └── grant-strategy.js    # Funder intelligence, evidence types, Surrey hub data
 │   ├── pages/
 │   │   ├── dashboard.js         # Hero, stats, top matches
 │   │   ├── scanner.js           # Search, filter, sort
 │   │   ├── detail.js            # Full opportunity breakdown
 │   │   ├── profile.js           # Startup profile editor
-│   │   └── alerts.js            # Deadlines & new opportunities
+│   │   ├── alerts.js            # Deadlines & new opportunities
+│   │   ├── vault.js             # 📂 Evidence Vault
+│   │   ├── stack.js             # 🧩 Funding Stack Planner
+│   │   ├── strategy.js          # ⏰ Sprints & Funder Intelligence
+│   │   └── regional.js          # 🗺️ Surrey Regional Hub
 │   └── styles/
 │       └── index.css            # Dark glassmorphism design system
 ├── index.html                   # Entry point with SEO/OG tags
@@ -190,10 +202,15 @@ FundScan-UK/
 ## 🗺️ Roadmap
 
 ### ✅ Completed
-- [x] Core app with 5 pages (Dashboard, Scanner, Detail, Profile, Alerts)
+- [x] Core app with 9 pages (Dashboard, Scanner, Detail, Profile, Alerts, Vault, Stack, Strategy, Regional)
 - [x] 33 curated funding sources with match scoring
 - [x] N&S MedTech profile pre-populated
 - [x] 3-agent grant research pipeline (Researcher → Scraper → DB Manager)
+- [x] Evidence Vault with 12 evidence types + per-funder readiness
+- [x] Funding Stack Planner with conflict detection
+- [x] Deadline Sprint System (8-week countdown)
+- [x] Funder Intelligence for 6 funders (scoring rubrics, green/red flags, pro tips)
+- [x] Surrey Regional Hub (Enterprise M3, KSS AHSN, Digital Catapult, University of Surrey)
 - [x] GitHub deployment
 
 ### 🔜 Planned
@@ -202,7 +219,6 @@ FundScan-UK/
 - [ ] **Application Tracker** — Kanban pipeline: Researching → Preparing → Submitted → Outcome
 - [ ] **Eligibility Auto-Check** — Machine-readable eligibility with ✅/⚠️/❌ badges
 - [ ] **Funding Calendar** — Visual timeline of open/close dates
-- [ ] **Application Strength Scorer** — Per-fund readiness tied to expert assessor data
 
 ---
 
@@ -223,6 +239,16 @@ npm run build
 ---
 
 ## 📝 Changelog
+
+### v1.3.0 — 2026-03-04
+**Grant Strategy Suite**
+- 📂 Evidence Vault: 12 evidence types with per-funder readiness tracking
+- 🧩 Funding Stack Planner: multi-source strategy with State Aid conflict detection
+- ⏰ Deadline Sprint System: 8-week countdown with phase-based task lists
+- 🏢 Funder Intelligence: scoring rubrics, green/red flags for 6 funders
+- 🗺️ Surrey Regional Hub: Enterprise M3, KSS AHSN, Digital Catapult, Uni of Surrey, regional investment funds
+- New data layer: `grant-strategy.js` with intelligence for Innovate UK, UKRI, SBRI, NIHR, HMRC, BBB
+- App expanded from 5 to 9 pages
 
 ### v1.2.0 — 2026-03-04
 **Grant Research Agent Pipeline**
