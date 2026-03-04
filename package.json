@@ -3,12 +3,22 @@
   "private": true,
   "version": "1.0.0",
   "description": "UK Startup Funding Scanner — discover, track, and apply for funding opportunities",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "agents:research": "node agents/researcher.js",
+    "agents:scrape": "node agents/scraper.js",
+    "agents:update-db": "node agents/db-manager.js",
+    "agents:run": "node agents/run-pipeline.js"
   },
   "devDependencies": {
     "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.3.1"
   }
 }

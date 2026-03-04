@@ -1,0 +1,459 @@
+{
+  "meta": {
+    "runAt": "2026-03-04T19:32:04.049Z",
+    "portalsScraped": 9,
+    "geminiUsed": true,
+    "totalLinksFound": 89,
+    "relevantLinks": 81,
+    "otherLinks": 8
+  },
+  "relevant": [
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/search",
+      "title": "Innovation Funding Service",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2400/overview/cbbc48e2-d78e-42cd-b570-330f702ba82f",
+      "title": "SNPN 5G Assured Integration (CR&D)",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2396/overview/d55398bb-ff62-43b9-9ee1-bf3fa4b95c5c",
+      "title": "Contracts for Innovation: industrial human relevant drug models",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2404/overview/99693fa4-0f17-4de8-b812-34f2be37a4d0",
+      "title": "ADOPT Facilitator Support Grant: Round 7",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2408/overview/ad7d7d36-af60-48be-91b0-f3208cf7c1d4",
+      "title": "Robotics Adoption Hubs",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2409/overview/c7e5dd6a-9f34-4614-b548-214b76190c14",
+      "title": "Robotics Adoption Central Convening Body",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2403/overview/4b54c133-c9b2-4572-9cca-2a7a4f69e5b8",
+      "title": "Semiconductors and components for smart electronic platforms",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2397/overview/752074ec-5f01-46d8-863f-596300a11651",
+      "title": "Zero Emission Flight Demonstrator Round 1",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2395/overview/3d49fbc4-6e09-4dd8-9ac8-8e5f88facd8d",
+      "title": "Contracts for Innovation in drug and alcohol addiction healthcare",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2394/overview/33b56af8-353f-46ac-bb66-a0928731c0fc",
+      "title": "Advancing innovation in drug and alcohol addiction healthcare",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://apply-for-innovation-funding.service.gov.uk/competition/2392/overview/b8b93732-6326-4aed-9af3-334e4cc5ecc0",
+      "title": "UK-Germany Collaborative Innovation for Quantum Technologies 2026",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://www.gov.uk/guidance/innovation-apply-for-a-funding-award",
+      "title": "Innovation funding advice",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/",
+      "title": "Apply for funding",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/",
+      "title": "Funding finder",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/before-you-apply/",
+      "title": "Before you apply",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/develop-your-application/",
+      "title": "Develop your application",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/how-we-make-decisions/",
+      "title": "How we make decisions",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/improving-your-funding-experience/",
+      "title": "Improving your funding experience",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/apply-for-funding/horizon-europe/",
+      "title": "Horizon Europe",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/manage-your-award/getting-your-funding/",
+      "title": "Getting your funding",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/manage-your-award/meeting-ukri-terms-and-conditions-for-funding/",
+      "title": "UKRI terms and conditions",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/what-we-do/what-we-have-funded/",
+      "title": "What we’ve funded",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/what-we-offer/international-funding/",
+      "title": "International",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/who-we-are/who-we-fund/",
+      "title": "Who we fund",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/?filter_order=opening_date",
+      "title": "Sort by opening date (oldest to newest)",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/?filter_order=closing_date",
+      "title": "Sort by closing date (oldest to newest)",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/epsrc-materials-innovation-partnerships/",
+      "title": "EPSRC Materials Innovation Partnerships",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/ukri-translation-proof-of-concept/",
+      "title": "UKRI Translation: Proof of Concept",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/adopt-facilitator-support-grant-round-7/",
+      "title": "ADOPT facilitator support grant: round 7",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/northern-ireland-election-study-2026-to-2031/",
+      "title": "Northern Ireland Election Study 2026 to 2031",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/pre-clinical-translational-models-hub/",
+      "title": "Pre-clinical translational models hub",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/fundamental-ai-research-lab/",
+      "title": "Fundamental AI Research Lab",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/british-election-study-2027-2032/",
+      "title": "British Election Study 2027 to 2032",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/semiconductors-and-components-for-smart-electronic-platforms/",
+      "title": "Semiconductors and components for smart electronic platforms",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/robotics-adoption-hubs/",
+      "title": "Robotics adoption hubs",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://www.ukri.org/opportunity/contracts-for-innovation-industrial-human-relevant-drug-models/",
+      "title": "Contracts for Innovation: industrial human relevant drug models",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://webarchive.nationalarchives.gov.uk/ukgwa/*/https://www.ukri.org/opportunity/",
+      "title": "UK Government Web Archive",
+      "source": "UKRI Opportunities"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/competitions",
+      "title": "Competitions",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme",
+      "title": "NHS Cancer Programme Innovation Open calls",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/competitions/overview?cat=open-competitions",
+      "title": "Open Competitions",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/competitions/overview?cat=closed-competitions",
+      "title": "Closed Competitions",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/competitions/guidance-for-applicants",
+      "title": "How to apply",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/nhs-cancer-programme-innovation-open-calls",
+      "title": "Competitions",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies",
+      "title": "Case studies",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/faqs-ncp-innovation-open-call",
+      "title": "FAQs - NHS Cancer Programme Innovation Open Call",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/funding-opportunities",
+      "title": "Find a funding opportunity",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/funding-programmes",
+      "title": "Our funding programmes",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/starting-a-funding-journey",
+      "title": "Starting a funding journey",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/application-support",
+      "title": "Planning a funding application",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/responsibilities-after-funding",
+      "title": "Responsibilities after funding",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/global-health",
+      "title": "Global health",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/social-care",
+      "title": "Social care",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/career-development/research-career-funding-programmes",
+      "title": "Overview of research career funding programmes",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/career-development/research-career-funding-programmes/predoctoral",
+      "title": "Predoctoral",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/career-development/research-career-funding-programmes/postdoctoral",
+      "title": "Postdoctoral",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/career-development/research-career-funding-programmes/professorships-and-senior-investigators",
+      "title": "Professorships and Senior Investigators",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.nihr.ac.uk/research-funding/application-support/regulatory-approvals-governance",
+      "title": "Guidance on regulatory approvals",
+      "source": "NIHR Funding"
+    },
+    {
+      "url": "https://www.gov.uk/apply-start-up-loan",
+      "title": "Apply for a Start Up Loan for your business",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/ad-venture-business-growth-grant",
+      "title": "AD:VENTURE Business Growth Grant",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/advanced-manufacturing-supply-chain-initiative-recycled-fund-england",
+      "title": "Advanced Manufacturing Supply Chain Initiative Recycled Fund - England",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/aerospace-technology-institute-ati-programme-funding-for-non-co2-projects",
+      "title": "Aerospace Technology Institute (ATI) Non-CO2 Programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/aerospace-technology-institute-ati-sme-programme",
+      "title": "Aerospace Technology Institute (ATI) SME Programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/aerospace-technology-institute-ati-strategic-programme",
+      "title": "Aerospace Technology Institute (ATI) Strategic Programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/civic-improvement-fund-ecif-elmbridge",
+      "title": "Business Boost Grants - Elmbridge",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-development-grant-scheme-scarborough-borough",
+      "title": "Business Development Grant Scheme – Scarborough",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-enterprise-fund-north-east-england",
+      "title": "Business Enterprise fund - North East England",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/north-of-tyne-growth-fund",
+      "title": "Business Growth Fund",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-growth-grant-scheme-mansfield",
+      "title": "Business Growth Grant Scheme - Mansfield",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-loans-grants-and-funding-scotland",
+      "title": "Business loans, grants and funding - Scotland",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-start-up-grant-scheme-mansfield",
+      "title": "Business start-up grant scheme - Mansfield",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/business-support-programme-adur-and-worthing",
+      "title": "Business Support Programme - Adur and Worthing",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/central-bedfordshire-council-start-up-support-programme",
+      "title": "Central Bedfordshire Council Start-up Support Programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/drive35-funding-programme",
+      "title": "DRIVE35 Funding Programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/driven-esf-high-level-skills-programme",
+      "title": "DRIVEN - ESF High Level Skills programme",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/duplex-investment-fund",
+      "title": "Duplex Investment Fund",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/e-business-programme-enfield-waltham-forest-and-redbridge",
+      "title": "E-business Programme - Enfield, Waltham Forest and Redbridge",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/e-business-support-programme-greenwich",
+      "title": "E-Business Support Programme – Greenwich and Bexley",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/m3-enterprise-growth-fund-surrey-and-hampshire",
+      "title": "Enterprise M3 Funding Escalator",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.gov.uk/business-finance-support/enterprise-programme-for-young-people-uk",
+      "title": "Enterprise programme for young people - UK",
+      "source": "Gov.uk Innovation Funding"
+    },
+    {
+      "url": "https://www.techstars.com/accelerators/london",
+      "title": "Techstars London",
+      "source": "Techstars London"
+    },
+    {
+      "url": "https://transform.england.nhs.uk/ai-lab/",
+      "title": "NHS AI Lab",
+      "source": "NHS AI Lab"
+    }
+  ],
+  "other": [
+    {
+      "url": "https://iuk-business-connect.org.uk/how-we-help/innovation-funding-and-support/innovate-uk-grants-how-to-apply/",
+      "title": "How to apply for funding",
+      "source": "Innovate UK IFS"
+    },
+    {
+      "url": "https://pmo.ccgranttracker.com/Login.aspx?ReturnUrl=%2f",
+      "title": "Application Portal Login",
+      "source": "SBRI Healthcare"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/knowledge-transfer-partnerships/",
+      "title": "Knowledge Transfer Partnerships",
+      "source": "KTN UK"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/european/horizon-europe/",
+      "title": "Horizon Europe",
+      "source": "KTN UK"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/innovation-exchange/",
+      "title": "Innovation Exchange",
+      "source": "KTN UK"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/innovation-networks/",
+      "title": "Innovation Networks",
+      "source": "KTN UK"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/investor-partnerships/",
+      "title": "Investor Partnerships",
+      "source": "KTN UK"
+    },
+    {
+      "url": "https://iuk-business-connect.org.uk/programme/net-zero-living/",
+      "title": "Net Zero Living",
+      "source": "KTN UK"
+    }
+  ]
+}
