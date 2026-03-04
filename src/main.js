@@ -10,6 +10,10 @@ import { renderScanner, afterRenderScanner } from './pages/scanner.js';
 import { renderDetail } from './pages/detail.js';
 import { renderProfile, afterRenderProfile } from './pages/profile.js';
 import { renderAlerts, afterRenderAlerts } from './pages/alerts.js';
+import { renderVault, afterRenderVault } from './pages/vault.js';
+import { renderStack, afterRenderStack } from './pages/stack.js';
+import { renderStrategy } from './pages/strategy.js';
+import { renderRegional } from './pages/regional.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
 import { setLastVisit } from './store.js';
 
@@ -45,6 +49,10 @@ function renderShell() {
             ${urgentCount > 0 ? `<span class="nav-badge">${urgentCount}</span>` : ''}
           </a>
         </li>
+        <li><a href="#/vault" data-route="/vault">📂 Vault</a></li>
+        <li><a href="#/stack" data-route="/stack">🧩 Stack</a></li>
+        <li><a href="#/strategy" data-route="/strategy">⏰ Strategy</a></li>
+        <li><a href="#/regional" data-route="/regional">🗺️ Surrey</a></li>
         <li><a href="#/profile" data-route="/profile">⚙️ Profile</a></li>
       </ul>
       <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
@@ -100,6 +108,24 @@ function setupRouter(container) {
             path: '/alerts',
             render: () => renderAlerts(),
             afterRender: () => afterRenderAlerts(),
+        },
+        {
+            path: '/vault',
+            render: () => renderVault(),
+            afterRender: () => afterRenderVault(),
+        },
+        {
+            path: '/stack',
+            render: () => renderStack(),
+            afterRender: () => afterRenderStack(),
+        },
+        {
+            path: '/strategy',
+            render: () => renderStrategy(),
+        },
+        {
+            path: '/regional',
+            render: () => renderRegional(),
         },
     ]);
 

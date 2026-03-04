@@ -63,3 +63,63 @@ export function getProfileCompleteness(profile) {
     if (profile.fundingNeeded) filled++;
     return Math.round((filled / total) * 100);
 }
+
+// ─── Evidence Vault ───────────────────────────────────
+const EVIDENCE_KEY = 'fundscan_evidence';
+
+export function getEvidence() {
+    try {
+        const raw = localStorage.getItem(EVIDENCE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+}
+
+export function saveEvidence(evidenceId, data) {
+    const all = getEvidence();
+    all[evidenceId] = { ...data, updatedAt: new Date().toISOString() };
+    localStorage.setItem(EVIDENCE_KEY, JSON.stringify(all));
+}
+
+export function removeEvidence(evidenceId) {
+    const all = getEvidence();
+    delete all[evidenceId];
+    localStorage.setItem(EVIDENCE_KEY, JSON.stringify(all));
+}
+
+// ─── Funding Stack ────────────────────────────────────
+const STACK_KEY = 'fundscan_stack';
+
+export function getStack() {
+    try {
+        const raw = localStorage.getItem(STACK_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+}
+
+export function saveStack(stack) {
+    localStorage.setItem(STACK_KEY, JSON.stringify(stack));
+}
+
+export function addToStack(item) {
+    const stack = getStack();
+    if (!stack.find(s => s.fundId === item.fundId)) {
+        stack.push({ ...item, addedAt: new Date().toISOString() });
+        saveStack(stack);
+    }
+    return stack;
+}
+
+export function removeFromStack(fundId) {
+    const stack = getStack().filter(s => s.fundId !== fundId);
+    saveStack(stack);
+    return stack;
+}
+
+export function updateStackItem(fundId, updates) {
+    const stack = getStack().map(s =>
+        s.fundId === fundId ? { ...s, ...updates } : s
+    );
+    saveStack(stack);
+    return stack;
+}
+
