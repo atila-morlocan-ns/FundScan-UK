@@ -6,13 +6,14 @@
 export const SECTORS = [
     { id: 'ai', name: 'AI & Machine Learning', icon: '🤖', color: '#6366f1' },
     { id: 'healthtech', name: 'HealthTech', icon: '🏥', color: '#ec4899' },
+    { id: 'lifescience', name: 'Life Sciences', icon: '🔬', color: '#d946ef' },
     { id: 'cleantech', name: 'CleanTech & Energy', icon: '🌱', color: '#10b981' },
     { id: 'fintech', name: 'FinTech', icon: '💳', color: '#f59e0b' },
     { id: 'deeptech', name: 'DeepTech & Quantum', icon: '⚛️', color: '#8b5cf6' },
     { id: 'creative', name: 'Creative Industries', icon: '🎨', color: '#f97316' },
     { id: 'agritech', name: 'AgriTech & Food', icon: '🌾', color: '#84cc16' },
     { id: 'spacetech', name: 'Space & Defence', icon: '🚀', color: '#06b6d4' },
-    { id: 'biotech', name: 'BioTech & Life Sciences', icon: '🧬', color: '#14b8a6' },
+    { id: 'biotech', name: 'BioTech', icon: '🧬', color: '#14b8a6' },
     { id: 'manufacturing', name: 'Advanced Manufacturing', icon: '🏭', color: '#64748b' },
     { id: 'edtech', name: 'EdTech', icon: '📚', color: '#a855f7' },
     { id: 'cyber', name: 'Cybersecurity', icon: '🔒', color: '#ef4444' },
@@ -47,7 +48,7 @@ export const fundingSources = [
         description: 'The successor to Smart Grants, this new pilot programme provides funding for game-changing and commercially viable R&D innovations that can significantly impact the UK economy. Open to single companies or collaborations.',
         amountMin: 25000,
         amountMax: 500000,
-        sectors: ['ai', 'healthtech', 'cleantech', 'deeptech', 'biotech', 'manufacturing', 'general'],
+        sectors: ['ai', 'healthtech', 'lifescience', 'cleantech', 'deeptech', 'biotech', 'manufacturing', 'general'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-registered SME or collaboration led by a UK business',
@@ -76,7 +77,7 @@ export const fundingSources = [
         description: 'A major £320 million fund focused on accelerating commercialisation in critical technology areas: AI, engineering biology, quantum technologies, and next-generation telecommunications.',
         amountMin: 100000,
         amountMax: 5000000,
-        sectors: ['ai', 'deeptech', 'biotech'],
+        sectors: ['ai', 'deeptech', 'biotech', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue', 'growth'],
         eligibility: [
             'UK-based organisations working in qualifying technology areas',
@@ -271,7 +272,7 @@ export const fundingSources = [
         description: 'Grants for public sector knowledge assets (e.g. university spin-outs, NHS innovations) transitioning to commercial readiness. Bridges the gap between research and market.',
         amountMin: 50000,
         amountMax: 250000,
-        sectors: ['healthtech', 'biotech', 'deeptech', 'general'],
+        sectors: ['healthtech', 'biotech', 'lifescience', 'deeptech', 'general'],
         stages: ['prototype', 'mvp'],
         eligibility: [
             'Public sector body or university spin-out',
@@ -465,7 +466,7 @@ export const fundingSources = [
         description: 'Flagship translational funding for life sciences and healthcare innovations. Supports feasibility studies and development projects that bridge the gap between research and patient benefit.',
         amountMin: 50000,
         amountMax: 4000000,
-        sectors: ['healthtech', 'biotech'],
+        sectors: ['healthtech', 'biotech', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-registered SME in life sciences',
@@ -573,7 +574,7 @@ export const fundingSources = [
         description: 'Funding for digital health technologies that improve patient outcomes and NHS efficiency. Targets AI diagnostics, telehealth, digital therapeutics, and health data platforms.',
         amountMin: 50000,
         amountMax: 1000000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-registered SME in digital health',
@@ -735,7 +736,7 @@ export const fundingSources = [
         description: 'Small Business Research Initiative for healthcare. Funds innovative solutions to NHS challenges including remote patient monitoring, fall prevention, and AI-assisted diagnostics. Specifically designed to connect innovators with NHS unmet needs.',
         amountMin: 50000,
         amountMax: 1000000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-registered SME or organisation',
@@ -765,7 +766,7 @@ export const fundingSources = [
         description: 'Funding for AI technologies that address significant health and social care challenges. Specifically targets AI applications in diagnostics, monitoring, and patient safety — including computer vision for clinical settings.',
         amountMin: 100000,
         amountMax: 2000000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-based organisation developing AI for health/social care',
@@ -795,7 +796,7 @@ export const fundingSources = [
         description: 'Part of the UK Industrial Strategy, this fund supports innovation that helps people live independently in later life. Targets technology for fall prevention, home monitoring, social isolation, and assisted living.',
         amountMin: 50000,
         amountMax: 500000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['mvp', 'revenue', 'growth'],
         eligibility: [
             'UK-based business or collaboration',
@@ -825,7 +826,7 @@ export const fundingSources = [
         description: 'European programme (UK participates via Innovate UK) funding ICT-based solutions for active and healthy ageing. Covers fall detection, remote monitoring, ambient assisted living, and AI-assisted care.',
         amountMin: 100000,
         amountMax: 700000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'Must form a consortium with partners from at least 2 other AAL countries',
@@ -854,7 +855,7 @@ export const fundingSources = [
         description: 'Funding and support for AI solutions deployed in social care settings including care homes, domiciliary care, and home monitoring. Focus on practical AI that improves safety and quality of care for elderly residents.',
         amountMin: 50000,
         amountMax: 500000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['mvp', 'revenue'],
         eligibility: [
             'UK-based AI/MedTech company',
@@ -884,7 +885,7 @@ export const fundingSources = [
         description: 'The 15 AHSNs across England run accelerator programmes specifically for MedTech companies. Provides NHS market access, clinical validation partnerships, regulatory guidance, and direct introductions to NHS commissioners.',
         amountMin: 0,
         amountMax: 75000,
-        sectors: ['healthtech', 'ai', 'biotech'],
+        sectors: ['healthtech', 'ai', 'biotech', 'lifescience'],
         stages: ['mvp', 'revenue'],
         eligibility: [
             'UK-based MedTech or digital health company',
@@ -914,7 +915,7 @@ export const fundingSources = [
         description: 'London-based accelerator specifically for innovations in healthy ageing and adult social care. Provides funding, mentoring, and direct access to care home operators and local authorities for real-world testing.',
         amountMin: 20000,
         amountMax: 50000,
-        sectors: ['healthtech', 'ai'],
+        sectors: ['healthtech', 'ai', 'lifescience'],
         stages: ['prototype', 'mvp'],
         eligibility: [
             'UK-based company with innovation for elderly care',
@@ -942,7 +943,7 @@ export const fundingSources = [
         description: 'Innovation support for AI and data science applied to health challenges. Provides access to health data, computing infrastructure, regulatory expertise, and collaboration with pharma/medtech companies.',
         amountMin: 0,
         amountMax: 100000,
-        sectors: ['healthtech', 'ai', 'biotech'],
+        sectors: ['healthtech', 'ai', 'biotech', 'lifescience'],
         stages: ['prototype', 'mvp', 'revenue'],
         eligibility: [
             'UK-based AI health company',

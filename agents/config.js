@@ -54,7 +54,7 @@ export const TARGET_SITES = [
 ];
 
 export const VALID_SECTORS = [
-    'ai', 'healthtech', 'cleantech', 'fintech', 'deeptech',
+    'ai', 'healthtech', 'lifescience', 'cleantech', 'fintech', 'deeptech',
     'creative', 'agritech', 'spacetech', 'biotech',
     'manufacturing', 'edtech', 'cyber', 'mobility', 'general',
 ];

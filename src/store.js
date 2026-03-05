@@ -13,7 +13,7 @@ const DEFAULT_PROFILE = {
     companyDesc: 'MedTech startup using computer vision and Vision Language Models (VLMs) to create an AI virtual witness for unwitnessed medical events — falls, seizures, and other critical incidents in elderly care. Addressing the £4.6 billion UK market in elderly falls and unwitnessed events.',
     teamSize: '2-5',
     fundingNeeded: 250000,
-    sectors: ['healthtech', 'ai'],
+    sectors: ['healthtech', 'ai', 'lifescience'],
     stages: ['mvp', 'revenue'],
 };
 
