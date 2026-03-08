@@ -12,7 +12,8 @@
     "agents:verify": "node agents/verifier.js",
     "agents:scrape": "node agents/scraper.js",
     "agents:update-db": "node agents/db-manager.js",
-    "agents:run": "node agents/run-pipeline.js"
+    "agents:run": "node agents/run-pipeline.js",
+    "check:urls": "node agents/check-urls.js"
   },
   "devDependencies": {
     "vite": "^6.0.0"
