@@ -6,6 +6,7 @@
 import { fundingSources, formatAmount, daysUntil } from '../data/funding-sources.js';
 import { getTrackerItems, updateTrackerStage, updateTrackerOutcome, updateTrackerNotes, removeTrackerItem, TRACKER_STAGES, getProfile } from '../store.js';
 import { calculateMatchScore, getEffectiveStatus } from '../match-engine.js';
+import { showToast } from '../toast.js';
 
 export function renderTracker() {
     const items = getTrackerItems();
@@ -164,6 +165,8 @@ export function afterRenderTracker() {
             const fundId = btn.dataset.fundId;
             const stage = btn.dataset.stage;
             updateTrackerStage(fundId, stage);
+            const stageInfo = TRACKER_STAGES.find(s => s.id === stage);
+            showToast(`Moved to ${stageInfo?.label || stage}`, 'info');
             // Re-render
             window.location.hash = '#/tracker';
         });
@@ -180,6 +183,7 @@ export function afterRenderTracker() {
     document.querySelectorAll('[data-note-input]').forEach(textarea => {
         textarea.addEventListener('blur', () => {
             updateTrackerNotes(textarea.dataset.fundId, textarea.value.trim());
+            showToast('Notes saved', 'success', 2000);
         });
     });
 
@@ -189,6 +193,7 @@ export function afterRenderTracker() {
             e.stopPropagation();
             if (confirm('Remove this fund from your tracker?')) {
                 removeTrackerItem(btn.dataset.fundId);
+                showToast('Removed from tracker', 'info');
                 window.location.hash = '#/tracker';
             }
         });

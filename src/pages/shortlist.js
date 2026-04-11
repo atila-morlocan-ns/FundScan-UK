@@ -8,6 +8,7 @@ import { getShortlist, removeFromShortlist, updateShortlistNote, addTrackerItem,
 import { calculateMatchScore, getEffectiveStatus } from '../match-engine.js';
 import { evaluateEligibility } from '../data/eligibility-rules.js';
 import { renderMatchRing, renderEligibilityBadge } from '../components.js';
+import { showToast } from '../toast.js';
 
 export function renderShortlist() {
     const shortlist = getShortlist();
@@ -155,6 +156,7 @@ export function afterRenderShortlist() {
         textarea.addEventListener('blur', () => {
             const fundId = textarea.dataset.fundId;
             updateShortlistNote(fundId, textarea.value.trim());
+            showToast('Note saved', 'success', 2000);
         });
     });
 
@@ -164,6 +166,7 @@ export function afterRenderShortlist() {
             e.stopPropagation();
             const fundId = btn.dataset.fundId;
             addTrackerItem(fundId, 'researching');
+            showToast('📊 Added to tracker pipeline', 'success');
             btn.outerHTML = `<a href="#/tracker" class="btn btn-secondary" style="font-size:var(--font-xs); padding:4px 12px;">📊 In Pipeline →</a>`;
         });
     });
@@ -174,6 +177,7 @@ export function afterRenderShortlist() {
             e.stopPropagation();
             const fundId = btn.dataset.fundId;
             removeFromShortlist(fundId);
+            showToast('Removed from shortlist', 'info');
             const card = document.querySelector(`.shortlist-card[data-fund-id="${fundId}"]`);
             if (card) {
                 card.style.transition = 'opacity 0.3s, transform 0.3s';

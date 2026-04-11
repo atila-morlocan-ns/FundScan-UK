@@ -5,6 +5,7 @@
 
 import { SECTORS, STAGES } from '../data/funding-sources.js';
 import { getProfile, saveProfile, getProfileCompleteness } from '../store.js';
+import { showToast } from '../toast.js';
 
 export function renderProfile() {
     const profile = getProfile() || {};
@@ -161,19 +162,6 @@ export function renderProfile() {
         </div>
       </form>
 
-      <!-- Success Toast -->
-      <div id="save-toast" style="
-        position:fixed; bottom:var(--space-xl); right:var(--space-xl);
-        background:var(--accent-success); color:white;
-        padding:var(--space-md) var(--space-xl);
-        border-radius:var(--radius-lg);
-        font-weight:600; font-size:var(--font-sm);
-        box-shadow:var(--shadow-lg);
-        transform:translateY(100px); opacity:0;
-        transition: all var(--transition-base);
-        z-index:9999;">
-        ✅ Profile saved! Your matches are updated.
-      </div>
     </div>
   `;
 }
@@ -228,15 +216,7 @@ export function afterRenderProfile() {
             if (fillEl) fillEl.style.width = `${completeness}%`;
 
             // Show toast
-            const toast = document.getElementById('save-toast');
-            if (toast) {
-                toast.style.transform = 'translateY(0)';
-                toast.style.opacity = '1';
-                setTimeout(() => {
-                    toast.style.transform = 'translateY(100px)';
-                    toast.style.opacity = '0';
-                }, 3000);
-            }
+            showToast('Profile saved! Matches updated.', 'success');
         });
     }
 }

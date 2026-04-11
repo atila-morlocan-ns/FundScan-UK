@@ -8,6 +8,7 @@ import { getProfile, isShortlisted, addToShortlist, removeFromShortlist, getTrac
 import { calculateMatchScore, getMatchLevel, getEffectiveStatus, getStaleness } from '../match-engine.js';
 import { evaluateEligibility } from '../data/eligibility-rules.js';
 import { renderMatchRing, renderFundingCard, renderEligibilityBadge } from '../components.js';
+import { showToast } from '../toast.js';
 
 export function renderDetail(params) {
     const id = params[0];
@@ -264,11 +265,13 @@ export function afterRenderDetail() {
                 starBtn.className = 'btn btn-secondary';
                 starBtn.style.cssText += 'flex:1; justify-content:center; font-size:var(--font-xs);';
                 starBtn.textContent = '☆ Shortlist';
+                showToast('Removed from shortlist', 'info');
             } else {
                 addToShortlist(fundId);
                 starBtn.className = 'btn btn-primary';
                 starBtn.style.cssText += 'flex:1; justify-content:center; font-size:var(--font-xs);';
                 starBtn.textContent = '★ Shortlisted';
+                showToast('★ Added to shortlist', 'success');
             }
         });
     }
@@ -279,6 +282,7 @@ export function afterRenderDetail() {
         trackBtn.addEventListener('click', () => {
             const fundId = trackBtn.dataset.fundId;
             addTrackerItem(fundId, 'researching');
+            showToast('📊 Added to tracker pipeline', 'success');
             trackBtn.outerHTML = `<a href="#/tracker" class="btn btn-secondary" style="flex:1; justify-content:center; font-size:var(--font-xs);">📊 In Pipeline →</a>`;
         });
     }

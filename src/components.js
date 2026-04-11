@@ -6,6 +6,7 @@
 import { formatAmount, daysUntil, getSectorById } from './data/funding-sources.js';
 import { getMatchLevel, getEffectiveStatus, getStaleness } from './match-engine.js';
 import { isShortlisted, addToShortlist, removeFromShortlist } from './store.js';
+import { showToast } from './toast.js';
 
 // Global star toggle handler (called from inline onclick on funding cards)
 window.__toggleStar = function(fundId, event) {
@@ -16,11 +17,13 @@ window.__toggleStar = function(fundId, event) {
         btn.classList.remove('active');
         btn.textContent = '☆';
         btn.title = 'Add to shortlist';
+        showToast('Removed from shortlist', 'info');
     } else {
         addToShortlist(fundId);
         btn.classList.add('active');
         btn.textContent = '★';
         btn.title = 'Remove from shortlist';
+        showToast('★ Added to shortlist', 'success');
     }
 };
 

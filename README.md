@@ -24,8 +24,11 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar
 - **🎓 Expert Assessor** — 6-step guided wizard: Company Basics → Technology → Market & Traction → Evidence & Assets → Funding Target → Readiness Report. Generates per-dimension scores, top funder matches, and actionable recommendations. Saves results to profile
 - **📅 Funding Calendar** — Visual timeline of closing/opening dates grouped by month. Stats bar, Closing/Opening toggle, Eligible-only and Shortlisted filters, urgency badges (red ≤14d, amber ≤30d), clickable to detail pages
+- **🔔 Toast Notifications** — Slide-in feedback for every action: shortlist toggle, profile save, tracker moves, note saves. Stackable, auto-dismiss, colour-coded (success/info/warning/error)
+- **⚡ Dashboard Quick Actions** — One-click cards for Scanner, Assessor, Calendar, and Tracker with live context (fund counts, pipeline status)
+- **🛡️ Error Boundary** — Crash-safe router with friendly error screen and recovery buttons. No more white screens on bad data
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
-- **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
+- **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions, compact nav for 14 pages
 
 ### 🎯 Grant Strategy Tools (NEW)
 - **📂 Evidence Vault** — Track 12 evidence types (market data, clinical results, IP, financials, letters of support, etc.) with per-funder readiness bars showing preparation level for IUK, SBRI, NIHR, HMRC, and more
@@ -312,6 +315,20 @@ npm run build
 - Each item shows: date badge, status, eligibility, match %, amount, provider
 - Click any item to navigate to detail page
 - App expanded to 14 pages
+
+### v2.5.0 — 2026-04-11
+**Quality & UX Pass**
+- 🛡️ Error boundary: try/catch in router, friendly crash screen with Go Home / Reload
+- ⭐ Fixed star toggle on Scanner cards (broken event delegation)
+- 📌 Scroll-to-top on every page navigation
+- 🎨 Fixed detail page Closes-date styling bug (broken class/style attribute)
+- 📊 Dashboard Strong Matches stat now counts all funds (was capped at 4)
+- ⚡ Favicon added (inline SVG ⚡) — eliminates 404 console error
+- 📦 package.json version bumped to match changelog
+- 🔔 Toast notification system: slide-in feedback for shortlist, profile save, tracker, notes
+- ⚡ Dashboard Quick Actions: 4-card grid linking to Scanner, Assessor, Calendar, Tracker
+- 🧭 Compact nav: tighter spacing to fit all 14 links without overflow
+- 🧹 Code quality: merged duplicate imports, removed redundant innerHTML clear
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

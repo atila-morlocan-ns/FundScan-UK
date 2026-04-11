@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════
 
 import { fundingSources, SECTORS, formatAmount, daysUntil } from '../data/funding-sources.js';
-import { getProfile, getProfileCompleteness } from '../store.js';
+import { getProfile, getProfileCompleteness, getShortlist, getTrackerItems } from '../store.js';
 import { sortByMatch, getMatchLevel, getEffectiveStatus } from '../match-engine.js';
 import { renderMatchRing, renderFundingCard } from '../components.js';
 
@@ -102,6 +102,38 @@ export function renderDashboard() {
           <div class="stat-number" style="${eligibleCount > 0 ? 'color:#10b981;' : ''}">${profile ? eligibleCount : '—'}</div>
           <div class="stat-label">✅ Eligible Now</div>
         </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="#/scanner" class="quick-action-card">
+          <div class="quick-action-icon" style="background:rgba(99,102,241,0.15);">🔍</div>
+          <div>
+            <div class="quick-action-label">Scan Opportunities</div>
+            <div class="quick-action-desc">${fundingSources.length} funds across ${SECTORS.length} sectors</div>
+          </div>
+        </a>
+        <a href="#/assessor" class="quick-action-card">
+          <div class="quick-action-icon" style="background:rgba(16,185,129,0.15);">🎓</div>
+          <div>
+            <div class="quick-action-label">Run Assessment</div>
+            <div class="quick-action-desc">6-step readiness wizard</div>
+          </div>
+        </a>
+        <a href="#/calendar" class="quick-action-card">
+          <div class="quick-action-icon" style="background:rgba(6,182,212,0.15);">📅</div>
+          <div>
+            <div class="quick-action-label">Funding Calendar</div>
+            <div class="quick-action-desc">Timeline of deadlines & openings</div>
+          </div>
+        </a>
+        <a href="#/tracker" class="quick-action-card">
+          <div class="quick-action-icon" style="background:rgba(245,158,11,0.15);">📊</div>
+          <div>
+            <div class="quick-action-label">Application Tracker</div>
+            <div class="quick-action-desc">${getTrackerItems().length > 0 ? getTrackerItems().length + ' in pipeline' : 'Track your applications'}</div>
+          </div>
+        </a>
       </div>
 
       <!-- Top Matches -->
