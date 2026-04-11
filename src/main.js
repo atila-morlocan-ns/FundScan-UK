@@ -16,13 +16,15 @@ import { renderStrategy } from './pages/strategy.js';
 import { renderRegional } from './pages/regional.js';
 import { renderUpload, afterRenderUpload } from './pages/upload.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
+import { getEffectiveStatus } from './match-engine.js';
 import { setLastVisit } from './store.js';
 
 // Count urgent alerts
 function getUrgentCount() {
     let count = 0;
     fundingSources.forEach(f => {
-        if (f.status === 'open' && daysUntil(f.closeDate) > 0 && daysUntil(f.closeDate) <= 30) {
+        const status = getEffectiveStatus(f);
+        if (status === 'open' && daysUntil(f.closeDate) > 0 && daysUntil(f.closeDate) <= 30) {
             count++;
         }
     });

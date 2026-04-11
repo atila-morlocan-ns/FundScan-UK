@@ -5,7 +5,7 @@
 
 import { fundingSources, formatAmount, daysUntil } from '../data/funding-sources.js';
 import { getProfile, getLastVisit, setLastVisit, getLastScan, setLastScan } from '../store.js';
-import { calculateMatchScore, getMatchLevel } from '../match-engine.js';
+import { calculateMatchScore, getMatchLevel, getEffectiveStatus } from '../match-engine.js';
 
 export function renderAlerts() {
     const profile = getProfile();
@@ -23,20 +23,22 @@ export function renderAlerts() {
 
     const closingSoon = fundingSources
         .filter(f => {
+            const status = getEffectiveStatus(f);
             const days = daysUntil(f.closeDate);
-            return f.status === 'open' && days > 0 && days <= 30;
+            return status === 'open' && days > 0 && days <= 30;
         })
         .sort((a, b) => daysUntil(a.closeDate) - daysUntil(b.closeDate));
 
     const closingMonth = fundingSources
         .filter(f => {
+            const status = getEffectiveStatus(f);
             const days = daysUntil(f.closeDate);
-            return f.status === 'open' && days > 30 && days <= 60;
+            return status === 'open' && days > 30 && days <= 60;
         })
         .sort((a, b) => daysUntil(a.closeDate) - daysUntil(b.closeDate));
 
     const upcoming = fundingSources
-        .filter(f => f.status === 'upcoming')
+        .filter(f => getEffectiveStatus(f) === 'upcoming')
         .sort((a, b) => new Date(a.openDate) - new Date(b.openDate));
 
     const totalAlerts = newOpportunities.length + closingSoon.length;

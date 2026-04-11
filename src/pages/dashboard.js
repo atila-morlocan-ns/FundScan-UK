@@ -4,15 +4,16 @@
 
 import { fundingSources, SECTORS, formatAmount, daysUntil } from '../data/funding-sources.js';
 import { getProfile, getProfileCompleteness } from '../store.js';
-import { sortByMatch, getMatchLevel } from '../match-engine.js';
+import { sortByMatch, getMatchLevel, getEffectiveStatus } from '../match-engine.js';
 import { renderMatchRing, renderFundingCard } from '../components.js';
 
 export function renderDashboard() {
   const profile = getProfile();
   const completeness = getProfileCompleteness(profile);
   const matched = sortByMatch(fundingSources, profile);
-  const openCount = fundingSources.filter(f => f.status === 'open').length;
-  const upcomingCount = fundingSources.filter(f => f.status === 'upcoming').length;
+  const openCount = matched.filter(f => (f._effectiveStatus || getEffectiveStatus(f)) === 'open').length;
+  const upcomingCount = matched.filter(f => (f._effectiveStatus || getEffectiveStatus(f)) === 'upcoming').length;
+  const eligibleCount = matched.filter(f => f._eligibility && f._eligibility.status === 'eligible' && (f._effectiveStatus || 'closed') !== 'closed').length;
 
   // Recently updated (last 30 days)
   const recentlyUpdated = fundingSources
@@ -32,8 +33,11 @@ export function renderDashboard() {
   });
 
   const topMatches = matched.slice(0, 4);
-  const closingSoon = fundingSources
-    .filter(f => f.status === 'open' && daysUntil(f.closeDate) > 0 && daysUntil(f.closeDate) <= 60)
+  const closingSoon = matched
+    .filter(f => {
+      const status = f._effectiveStatus || getEffectiveStatus(f);
+      return status === 'open' && daysUntil(f.closeDate) > 0 && daysUntil(f.closeDate) <= 60;
+    })
     .sort((a, b) => daysUntil(a.closeDate) - daysUntil(b.closeDate))
     .slice(0, 3);
 
@@ -94,6 +98,10 @@ export function renderDashboard() {
           <div class="stat-number">${profile ? topMatches.filter(f => f.matchScore >= 60).length : '—'}</div>
           <div class="stat-label">Strong Matches</div>
         </div>
+        <div class="card stat-card">
+          <div class="stat-number" style="${eligibleCount > 0 ? 'color:#10b981;' : ''}">${profile ? eligibleCount : '—'}</div>
+          <div class="stat-label">✅ Eligible Now</div>
+        </div>
       </div>
 
       <!-- Top Matches -->
@@ -125,10 +133,7 @@ export function renderDashboard() {
           <h2 class="section-title">⏰ Closing Soon</h2>
         </div>
         <div class="funding-grid">
-          ${closingSoon.map(f => {
-    const score = profile ? matched.find(m => m.id === f.id)?.matchScore || 0 : 0;
-    return renderFundingCard(f, score);
-  }).join('')}
+          ${closingSoon.map(f => renderFundingCard(f, f.matchScore)).join('')}
         </div>
       </section>` : ''}
 

@@ -301,6 +301,7 @@ export function afterRenderUpload() {
                 .map(c => c.dataset.stage);
 
             const fundingVal = document.getElementById('ext-funding').value;
+            const analysis = analysisResult?._analysis || {};
 
             const profile = {
                 companyName: document.getElementById('ext-name').value.trim(),
@@ -309,7 +310,14 @@ export function afterRenderUpload() {
                 fundingNeeded: fundingVal ? parseInt(fundingVal) : null,
                 sectors,
                 stages,
-                _analysis: analysisResult?._analysis || { source: 'pitch-deck', analyzedAt: new Date().toISOString() },
+                // Carry over eligibility fields from AI analysis
+                trl: analysis.trl || null,
+                companyAge: analysis.companyAge || null,
+                ukRegistered: analysis.ukBased !== false,
+                hasNHSPartner: false,
+                hasAcademicPartner: false,
+                regulatoryStatus: analysis.regulatoryStatus || 'none',
+                _analysis: { source: 'pitch-deck', analyzedAt: new Date().toISOString() },
             };
 
             saveProfile(profile);
