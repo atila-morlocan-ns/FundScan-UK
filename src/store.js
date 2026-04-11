@@ -123,3 +123,56 @@ export function updateStackItem(fundId, updates) {
     return stack;
 }
 
+// ─── API Key Management ──────────────────────────────
+const API_KEY_KEY = 'fundscan_api_key';
+
+export function getApiKey() {
+    return localStorage.getItem(API_KEY_KEY) || '';
+}
+
+export function saveApiKey(key) {
+    localStorage.setItem(API_KEY_KEY, key);
+}
+
+// ─── Data Inventory (for privacy dashboard) ──────────
+export function getDataInventory() {
+    const profile = getProfile();
+    const evidence = getEvidence();
+    const stack = getStack();
+
+    return {
+        hasProfile: !!(profile && profile.companyName),
+        profileName: profile?.companyName || '',
+        profileSource: profile?._analysis?.source || (profile === DEFAULT_PROFILE ? 'default' : 'manual'),
+        evidenceCount: Object.keys(evidence).length,
+        stackCount: stack.length,
+        hasApiKey: !!(localStorage.getItem(API_KEY_KEY) || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY)),
+    };
+}
+
+// ─── Data Privacy — Clear / Purge ────────────────────
+export function clearAllData(scope = 'all') {
+    switch (scope) {
+        case 'profile':
+            localStorage.removeItem(PROFILE_KEY);
+            break;
+        case 'evidence':
+            localStorage.removeItem(EVIDENCE_KEY);
+            break;
+        case 'stack':
+            localStorage.removeItem(STACK_KEY);
+            break;
+        case 'apikey':
+            localStorage.removeItem(API_KEY_KEY);
+            break;
+        case 'all':
+            localStorage.removeItem(PROFILE_KEY);
+            localStorage.removeItem(EVIDENCE_KEY);
+            localStorage.removeItem(STACK_KEY);
+            localStorage.removeItem(API_KEY_KEY);
+            localStorage.removeItem(LAST_VISIT_KEY);
+            localStorage.removeItem(SCAN_KEY);
+            break;
+    }
+}
+

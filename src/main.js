@@ -14,6 +14,7 @@ import { renderVault, afterRenderVault } from './pages/vault.js';
 import { renderStack, afterRenderStack } from './pages/stack.js';
 import { renderStrategy } from './pages/strategy.js';
 import { renderRegional } from './pages/regional.js';
+import { renderUpload, afterRenderUpload } from './pages/upload.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
 import { setLastVisit } from './store.js';
 
@@ -53,6 +54,7 @@ function renderShell() {
         <li><a href="#/stack" data-route="/stack">🧩 Stack</a></li>
         <li><a href="#/strategy" data-route="/strategy">⏰ Strategy</a></li>
         <li><a href="#/regional" data-route="/regional">🗺️ Surrey</a></li>
+        <li><a href="#/upload" data-route="/upload">📄 Deck</a></li>
         <li><a href="#/profile" data-route="/profile">⚙️ Profile</a></li>
       </ul>
       <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
@@ -126,6 +128,11 @@ function setupRouter(container) {
         {
             path: '/regional',
             render: () => renderRegional(),
+        },
+        {
+            path: '/upload',
+            render: () => renderUpload(),
+            afterRender: () => afterRenderUpload(),
         },
     ]);
 
