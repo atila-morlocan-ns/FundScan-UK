@@ -19,7 +19,7 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **Funding Scanner** — Search + filter by sector, stage, type, status (including "✅ Eligible Only") with sort by match/deadline/amount
 - **Deadline Alerts** — Closing-soon warnings at 30/60 day thresholds
 - **Application Tips** — Real tips and success rates for each funding source
-- **Detail Pages** — Full breakdown with eligibility, related opportunities, and sidebar key facts
+- **Detail Pages** — Full breakdown with **📋 Eligibility Check panel** (per-check pass/fail with Required/Preferred tags), staleness badge, disabled Apply when closed, related opportunities with badges, and sidebar key facts
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
@@ -271,6 +271,15 @@ npm run build
 - Match Engine v2: Rebalanced from 5→7 scoring dimensions (eligibility 25%, sector 20%, keywords 20%, stage 15%, status 10%, amount 5%, use-case 5%)
 - Gemini model upgraded from 2.0 Flash (deprecated) to 2.5 Flash (stable)
 - App expanded from 9 to 10 pages
+
+### v2.1.0 — 2026-04-11
+**Production Readiness Polish**
+- 📋 Detail Page: Eligibility Check panel with per-check breakdown (✅/❌ + Required/Preferred tags, % fit score)
+- 📋 Detail Page: Staleness badge on Last Updated, disabled Apply button when closed, eligibility badge in sidebar
+- 📊 Dashboard: New "✅ Eligible Now" stat card (5th stat). Open/Upcoming counts auto-correct for expired deadlines
+- 📢 Alerts: All deadline/upcoming filters use effective status — prevents stale funds from showing as active
+- 📄 Upload Save: Carries over AI-extracted TRL, company age, UK registered, regulatory status into profile
+- 🔧 Nav badge count uses effective status for accurate urgency indicators
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**
