@@ -1,6 +1,6 @@
 # FundScan UK ⚡
 
-**AI-powered UK startup funding scanner** — discover, score, and track grants, loans, and innovation programmes matched to your startup.
+**AI-powered UK startup funding scanner** — discover, score, and track grants, loans, and innovation programmes matched to your startup. Upload any pitch deck and let Gemini AI extract your profile, match against 33+ funding sources, and check eligibility automatically.
 
 Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** — MedTech startup using computer vision and VLMs to address unwitnessed medical events in elderly care (£4.6B UK market).
 
@@ -11,12 +11,16 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 ### Frontend App
 - **33 Real Funding Sources** — Innovate UK, UKRI, HMRC, NHS England, SBRI, NIHR, and more
 - **8 MedTech-Specific Funds** — SBRI Healthcare, NIHR AI Award, Healthy Ageing, NHS AI Lab, AAL, AHSN, CareCity
-- **Smart Match Scoring** — Personalised % match based on sector, stage, and funding needs (weighted algorithm)
-- **Funding Scanner** — Search + filter by sector, stage, type, status with sort by match/deadline/amount
+- **Smart Match Scoring v2** — 7-dimension algorithm: eligibility (25%), sector (20%), keywords (20%), stage (15%), status (10%), amount (5%), use-case intelligence (5%)
+- **✅ Eligibility Engine** — Machine-readable rules for 20+ funds. Every card shows ✅ Eligible / ⚠️ Check Fit / ❌ Ineligible with detailed check breakdown
+- **📄 Pitch Deck Analyzer** — Upload any PDF pitch deck → Gemini AI extracts company profile (name, sector, stage, team, funding needed, TRL) → auto-match against all funding sources
+- **🔒 Data Privacy Controls** — Granular purge: clear profile only, clear evidence/stack, or purge ALL company data. Designed for CFO research sessions
+- **🔄 Staleness Detection** — Auto-flags aging data (30-90 days) and stale data (90+ days). Auto-corrects expired deadline statuses
+- **Funding Scanner** — Search + filter by sector, stage, type, status (including "✅ Eligible Only") with sort by match/deadline/amount
 - **Deadline Alerts** — Closing-soon warnings at 30/60 day thresholds
 - **Application Tips** — Real tips and success rates for each funding source
 - **Detail Pages** — Full breakdown with eligibility, related opportunities, and sidebar key facts
-- **Profile Persistence** — Saves to localStorage, pre-populated with N&S details
+- **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
 ### 🎯 Grant Strategy Tools (NEW)
@@ -27,9 +31,10 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **🗺️ Regional Hub Mapper** — Surrey-focused: Enterprise M3 Growth Hub, KSS AHSN (MedTech adoption + falls prevention), Digital Catapult, University of Surrey (KTP partner), and regional investment funds
 
 ### 🤖 Grant Research Agent Pipeline (`agents/`)
-- **Researcher Agent** — Scrapes 9 UK grant portals (IFS, UKRI, SBRI, NIHR, gov.uk) + Gemini LLM research
+- **Researcher Agent** — Scrapes 9 UK grant portals (IFS, UKRI, SBRI, NIHR, gov.uk) + Gemini LLM research with N&S-contextualised prompts (fall detection, elderly care, MHRA)
+- **🧹 Noise Filter** — 28 regex patterns filtering navigation pages, career funding, hyper-local council grants, login portals, off-sector results, and archived pages before scraping
 - **🛡️ URL Verifier** — Liveness verification with HEAD checks, domain whitelist (13 trusted sites), keyword scoring (28 grant keywords), date/amount pattern detection. Eliminates fabricated URLs before scraping
-- **Scraper Agent** — Dual-extract: regex pre-extraction from HTML + Gemini AI extraction, with per-field confidence scoring (HIGH/MEDIUM/LOW) and cross-reference conflict detection
+- **Scraper Agent** — Dual-extract: regex pre-extraction from HTML + Gemini AI extraction, with per-field confidence scoring (HIGH/MEDIUM/LOW) and cross-reference conflict detection. Now extracts structured eligibility rules (company size, UK registered, TRL range, collaboration, NHS partner, match funding)
 - **Database Manager** — Schema validation, Levenshtein deduplication, provenance tracking (sourceUrl, lastVerified, contentHash, verificationCount), merge with changelog, JS export
 - **Pipeline Runner** — Orchestrates all 4 agents in sequence with confidence stats summary
 
@@ -63,7 +68,10 @@ npm run build
 Create a `.env` file in the project root:
 ```env
 GEMINI_API_KEY=your_api_key_here
+VITE_GEMINI_API_KEY=your_api_key_here
 ```
+
+> **Note:** `GEMINI_API_KEY` is used by the Node.js agent pipeline. `VITE_GEMINI_API_KEY` is used by the browser-based pitch deck analyzer (Vite requires the `VITE_` prefix for client-side env vars).
 
 ---
 
@@ -125,24 +133,28 @@ FundScan-UK/
 │   └── data/                    # Pipeline output files
 │       └── research-results.json
 ├── src/                         # 🎨 Frontend app
-│   ├── main.js                  # App shell, router, navigation (9 pages)
+│   ├── main.js                  # App shell, router, navigation (10 pages)
 │   ├── router.js                # Hash-based SPA router
-│   ├── store.js                 # Profile + evidence + stack persistence
-│   ├── match-engine.js          # Match scoring algorithm
-│   ├── components.js            # Shared UI components
+│   ├── store.js                 # Profile + evidence + stack + API key + privacy controls
+│   ├── match-engine.js          # Match scoring v2 (7-dimension algorithm)
+│   ├── components.js            # Shared UI (match ring, eligibility/staleness badges, funding cards)
+│   ├── ai/
+│   │   └── deck-analyzer.js     # 📄 Client-side Gemini PDF analysis
 │   ├── data/
 │   │   ├── funding-sources.js   # 33 curated funding sources
+│   │   ├── eligibility-rules.js # ✅ Machine-readable eligibility rules for 20+ funds
 │   │   └── grant-strategy.js    # Funder intelligence, evidence types, Surrey hub data
 │   ├── pages/
 │   │   ├── dashboard.js         # Hero, stats, top matches
-│   │   ├── scanner.js           # Search, filter, sort
+│   │   ├── scanner.js           # Search, filter, sort (+ eligible-only filter)
 │   │   ├── detail.js            # Full opportunity breakdown
-│   │   ├── profile.js           # Startup profile editor
+│   │   ├── profile.js           # Startup profile editor (+ eligibility fields)
 │   │   ├── alerts.js            # Deadlines & new opportunities
 │   │   ├── vault.js             # 📂 Evidence Vault
 │   │   ├── stack.js             # 🧩 Funding Stack Planner
 │   │   ├── strategy.js          # ⏰ Sprints & Funder Intelligence
-│   │   └── regional.js          # 🗺️ Surrey Regional Hub
+│   │   ├── regional.js          # 🗺️ Surrey Regional Hub
+│   │   └── upload.js            # 📄 Pitch Deck Analyzer + Privacy Controls
 │   └── styles/
 │       └── index.css            # Dark glassmorphism design system
 ├── index.html                   # Entry point with SEO/OG tags
@@ -163,7 +175,7 @@ FundScan-UK/
 | Frontend | Vanilla JS (ES Modules) | Zero-dependency SPA |
 | Styling | Custom CSS | Dark glassmorphism design system |
 | Agents | Node.js + Cheerio | Web scraping + HTML parsing |
-| AI | Gemini 2.0 Flash | Structured data extraction + research |
+| AI | Gemini 2.5 Flash | Structured data extraction, research, pitch deck analysis |
 | Data | JSON + localStorage | Grant database + user profiles |
 
 ---
@@ -204,22 +216,27 @@ FundScan-UK/
 ## 🗺️ Roadmap
 
 ### ✅ Completed
-- [x] Core app with 9 pages (Dashboard, Scanner, Detail, Profile, Alerts, Vault, Stack, Strategy, Regional)
-- [x] 33 curated funding sources with match scoring
-- [x] N&S MedTech profile pre-populated
-- [x] 3-agent grant research pipeline (Researcher → Scraper → DB Manager)
+- [x] Core app with 10 pages (Dashboard, Scanner, Detail, Profile, Alerts, Vault, Stack, Strategy, Regional, Deck)
+- [x] 33 curated funding sources with match scoring v2 (7-dimension algorithm)
+- [x] N&S MedTech profile pre-populated (with eligibility fields)
+- [x] 4-agent grant research pipeline (Researcher → Verifier → Scraper → DB Manager)
 - [x] Evidence Vault with 12 evidence types + per-funder readiness
 - [x] Funding Stack Planner with conflict detection
 - [x] Deadline Sprint System (8-week countdown)
 - [x] Funder Intelligence for 6 funders (scoring rubrics, green/red flags, pro tips)
 - [x] Surrey Regional Hub (Enterprise M3, KSS AHSN, Digital Catapult, University of Surrey)
+- [x] **Pitch Deck Analyzer** — Upload PDF → Gemini AI profile extraction → auto-match
+- [x] **Smart Eligibility Engine** — 20+ funds with machine-readable rules + badges
+- [x] **N&S Use-Case Intelligence** — Deep alignment scoring for fall detection, elderly care, patient safety
+- [x] **Noise Filtering** — 28 regex patterns removing irrelevant URLs from agent pipeline
+- [x] **Staleness Detection** — Auto-flags aging data + auto-corrects expired deadlines
+- [x] **Data Privacy Controls** — Granular purge (profile / evidence+stack / all) for CFO research sessions
 - [x] GitHub deployment
 
 ### 🔜 Planned
 - [ ] **Expert Assessor** — 6-step guided wizard to extract startup details and generate readiness report
 - [ ] **Favourites & Shortlist** — Save funds, add notes, filter by shortlisted
 - [ ] **Application Tracker** — Kanban pipeline: Researching → Preparing → Submitted → Outcome
-- [ ] **Eligibility Auto-Check** — Machine-readable eligibility with ✅/⚠️/❌ badges
 - [ ] **Funding Calendar** — Visual timeline of open/close dates
 
 ---
@@ -241,6 +258,19 @@ npm run build
 ---
 
 ## 📝 Changelog
+
+### v2.0.0 — 2026-04-11
+**Intelligence Upgrade + Pitch Deck Analyzer**
+- 📄 Pitch Deck Analyzer: Upload PDF → Gemini 2.5 Flash extracts company profile → auto-match against all funding sources
+- ✅ Smart Eligibility Engine: Machine-readable rules for 20+ funds, ✅/⚠️/❌ badges on every card
+- 🎯 N&S Use-Case Intelligence: Deep alignment scoring for fall detection, elderly care, patient safety (+5% bonus for perfect matches)
+- 🔄 Staleness Detection: Auto-flags aging/stale data, auto-corrects expired deadlines
+- 🧹 Agent Noise Filter: 28 regex patterns removing navigation pages, career funding, hyper-local council grants
+- 📋 Extended Profile: TRL, company age, regulatory status, NHS/academic partner checkboxes
+- 🔒 Data Privacy Controls: Granular purge (profile / evidence+stack / all) for CFO research sessions
+- Match Engine v2: Rebalanced from 5→7 scoring dimensions (eligibility 25%, sector 20%, keywords 20%, stage 15%, status 10%, amount 5%, use-case 5%)
+- Gemini model upgraded from 2.0 Flash (deprecated) to 2.5 Flash (stable)
+- App expanded from 9 to 10 pages
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

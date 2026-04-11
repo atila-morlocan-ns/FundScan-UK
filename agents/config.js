@@ -92,7 +92,7 @@ export const SCHEMA = {
     },
 };
 
-export const GEMINI_MODEL = 'gemini-2.0-flash';
+export const GEMINI_MODEL = 'gemini-2.5-flash';
 
 export const RATE_LIMIT_MS = 2000; // ms between requests
 export const MAX_RETRIES = 3;
