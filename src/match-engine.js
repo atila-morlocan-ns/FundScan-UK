@@ -1,8 +1,11 @@
 // ═══════════════════════════════════════════════════════
-// FundScan UK — Match Scoring Engine
-// Scores funding sources based on user profile
-// Now includes keyword-based description matching
+// FundScan UK — Match Scoring Engine v2
+// Now with: eligibility scoring, use-case intelligence,
+// rebalanced weights, and staleness detection
 // ═══════════════════════════════════════════════════════
+
+import { evaluateEligibility } from './data/eligibility-rules.js';
+import { daysUntil } from './data/funding-sources.js';
 
 // ─── Keyword dictionaries ─────────────────────────────
 // Maps keywords found in company descriptions to relevance signals
@@ -34,7 +37,38 @@ const KEYWORD_GROUPS = {
     fintech: ['fintech', 'financial technology', 'banking', 'payments', 'insurtech', 'regtech', 'blockchain', 'cryptocurrency'],
 };
 
-// Extract keywords from a text description
+// ─── N&S Use-Case Intelligence ────────────────────────
+// High-signal phrases that indicate deep alignment with N&S-type startups
+// These go BEYOND generic sector matching
+const USE_CASE_SIGNALS = {
+    // 5% bonus — perfect alignment
+    perfect: [
+        'fall detection', 'fall prevention', 'unwitnessed',
+        'patient monitoring camera', 'computer vision health',
+        'elderly monitoring', 'care home monitoring',
+        'seizure detection', 'medical event detection',
+        'ai witness', 'virtual witness',
+    ],
+    // 3% bonus — strong alignment
+    strong: [
+        'patient safety', 'remote monitoring elderly',
+        'assisted living technology', 'social care ai',
+        'ageing population', 'independent living technology',
+        'elderly care technology', 'domiciliary care',
+        'ambient assisted living', 'care home technology',
+        'falls in elderly', 'falls prevention programme',
+    ],
+    // 1% bonus — good alignment
+    good: [
+        'ai diagnostics', 'digital health innovation',
+        'medtech startup', 'connected care',
+        'telehealth elderly', 'wearable health',
+        'clinical ai', 'nhs innovation',
+        'health monitoring', 'ai social care',
+    ],
+};
+
+// ─── Extract keywords from text ───────────────────────
 function extractKeywords(text) {
     if (!text) return [];
     const lower = text.toLowerCase();
@@ -52,7 +86,7 @@ function extractKeywords(text) {
     return found;
 }
 
-// Score keyword relevance between profile description and funding description
+// Score keyword relevance between profile description and funding
 function keywordMatchScore(profileKeywords, funding) {
     if (!profileKeywords || profileKeywords.length === 0) return 0;
 
@@ -67,8 +101,7 @@ function keywordMatchScore(profileKeywords, funding) {
     let matches = 0;
     let totalGroups = profileKeywords.length;
 
-    for (const { group, keyword } of profileKeywords) {
-        // Check if the keyword group is relevant to this funding
+    for (const { group } of profileKeywords) {
         const groupKeywords = KEYWORD_GROUPS[group] || [];
         const hasMatch = groupKeywords.some(kw => fundingText.includes(kw));
         if (hasMatch) matches++;
@@ -77,72 +110,162 @@ function keywordMatchScore(profileKeywords, funding) {
     return totalGroups > 0 ? matches / totalGroups : 0;
 }
 
+// ─── Use-Case Relevance Score ─────────────────────────
+// Checks how deeply a funding source aligns with the user's specific use case
+function useCaseScore(funding, profile) {
+    const fundingText = [
+        funding.name,
+        funding.description,
+        ...(funding.eligibility || []),
+        ...(funding.tips || []),
+    ].join(' ').toLowerCase();
+
+    const profileText = (profile.companyDesc || '').toLowerCase();
+
+    let bonus = 0;
+
+    // Check fund text against use-case signals
+    for (const phrase of USE_CASE_SIGNALS.perfect) {
+        if (fundingText.includes(phrase) && profileText.includes(phrase.split(' ')[0])) {
+            bonus = Math.max(bonus, 5);
+            break;
+        }
+        if (fundingText.includes(phrase)) {
+            bonus = Math.max(bonus, 3);
+        }
+    }
+
+    if (bonus < 5) {
+        for (const phrase of USE_CASE_SIGNALS.strong) {
+            if (fundingText.includes(phrase)) {
+                bonus = Math.max(bonus, 2);
+                break;
+            }
+        }
+    }
+
+    if (bonus < 2) {
+        for (const phrase of USE_CASE_SIGNALS.good) {
+            if (fundingText.includes(phrase)) {
+                bonus = Math.max(bonus, 1);
+                break;
+            }
+        }
+    }
+
+    return bonus;
+}
+
+// ─── Staleness Detection ──────────────────────────────
+export function getStaleness(fund) {
+    const daysSinceUpdate = -daysUntil(fund.lastUpdated);
+
+    if (daysSinceUpdate > 90) return { level: 'stale', label: '⚠️ Data may be outdated', days: daysSinceUpdate, class: 'stale' };
+    if (daysSinceUpdate > 30) return { level: 'aging', label: '🔄 Check for updates', days: daysSinceUpdate, class: 'aging' };
+    return { level: 'fresh', label: '✅ Recently verified', days: daysSinceUpdate, class: 'fresh' };
+}
+
+// Auto-correct status if close date has passed
+export function getEffectiveStatus(fund) {
+    if (fund.status === 'open' && fund.closeDate) {
+        const days = daysUntil(fund.closeDate);
+        if (days <= 0) return 'closed';
+    }
+    if (fund.status === 'upcoming' && fund.openDate) {
+        const days = daysUntil(fund.openDate);
+        if (days <= 0) return 'open';
+    }
+    return fund.status;
+}
+
+// ═══════════════════════════════════════════════════════
+// MAIN SCORING ENGINE v2
+// Rebalanced weights:
+//   Eligibility  25%  (NEW)
+//   Sector       20%  (was 35%)
+//   Keywords     20%  (same)
+//   Stage        15%  (was 25%)
+//   Status       10%  (same)
+//   Amount        5%  (was 10%)
+//   Use-Case      5%  (NEW)
+// ═══════════════════════════════════════════════════════
+
 export function calculateMatchScore(funding, profile) {
     if (!profile || !profile.sectors || !profile.stages) {
         return 0;
     }
 
     let score = 0;
-    let maxScore = 0;
+    const maxScore = 100;
 
-    // ── Sector match (35% weight) ──────────────────
-    maxScore += 35;
+    // ── 1. Eligibility (25 points — NEW) ──────────────
+    const eligibility = evaluateEligibility(funding.id, profile);
+    if (eligibility.status === 'ineligible') {
+        score += 0;
+    } else if (eligibility.status === 'eligible') {
+        score += 25;
+    } else {
+        score += Math.round(25 * (eligibility.score / 100));
+    }
+
+    // ── 2. Sector match (20 points) ───────────────────
     if (profile.sectors && profile.sectors.length > 0) {
         const sectorOverlap = profile.sectors.filter(s => funding.sectors.includes(s));
         if (sectorOverlap.length > 0) {
-            score += 35 * (sectorOverlap.length / Math.max(profile.sectors.length, 1));
+            score += Math.round(20 * (sectorOverlap.length / Math.max(profile.sectors.length, 1)));
         }
         // General / cross-sector always gets partial credit
         if (funding.sectors.includes('general') && sectorOverlap.length === 0) {
-            score += 12;
+            score += 7;
         }
     }
 
-    // ── Stage match (25% weight) ───────────────────
-    maxScore += 25;
-    if (profile.stages && profile.stages.length > 0) {
-        const stageOverlap = profile.stages.filter(s => funding.stages.includes(s));
-        if (stageOverlap.length > 0) {
-            score += 25 * (stageOverlap.length / Math.max(profile.stages.length, 1));
-        }
-    }
-
-    // ── Keyword match (20% weight — NEW) ──────────
-    maxScore += 20;
+    // ── 3. Keyword match (20 points) ──────────────────
     if (profile.companyDesc) {
         const profileKeywords = extractKeywords(profile.companyDesc);
         const kwScore = keywordMatchScore(profileKeywords, funding);
-        score += 20 * kwScore;
+        score += Math.round(20 * kwScore);
     } else {
-        score += 5; // No description — give small partial credit
+        score += 4; // No description — small partial credit
     }
 
-    // ── Status bonus (10% weight) ─────────────────
-    maxScore += 10;
-    if (funding.status === 'open') {
+    // ── 4. Stage match (15 points) ────────────────────
+    if (profile.stages && profile.stages.length > 0) {
+        const stageOverlap = profile.stages.filter(s => funding.stages.includes(s));
+        if (stageOverlap.length > 0) {
+            score += Math.round(15 * (stageOverlap.length / Math.max(profile.stages.length, 1)));
+        }
+    }
+
+    // ── 5. Status bonus (10 points) ───────────────────
+    const effectiveStatus = getEffectiveStatus(funding);
+    if (effectiveStatus === 'open') {
         score += 10;
-    } else if (funding.status === 'upcoming') {
+    } else if (effectiveStatus === 'upcoming') {
         score += 6;
     }
+    // closed = 0
 
-    // ── Amount relevance (10% weight) ─────────────
-    maxScore += 10;
+    // ── 6. Amount relevance (5 points) ────────────────
     if (profile.fundingNeeded) {
         const needed = profile.fundingNeeded;
         if (funding.amountMax === 0 && funding.amountMin === 0) {
-            score += 5; // varies — partial credit
+            score += 3; // varies — partial credit
         } else if (needed >= funding.amountMin && needed <= funding.amountMax) {
-            score += 10; // perfect fit
+            score += 5; // perfect fit
         } else if (needed < funding.amountMin && needed >= funding.amountMin * 0.5) {
-            score += 7; // close
+            score += 3; // close below
         } else if (needed > funding.amountMax && needed <= funding.amountMax * 2) {
-            score += 5; // close above
+            score += 2; // close above
         }
     } else {
-        score += 5; // no preference — partial credit
+        score += 3; // no preference — partial credit
     }
 
-    return Math.round((score / maxScore) * 100);
+    // ── 7. Use-Case Intelligence (5 points — NEW) ─────
+    score += useCaseScore(funding, profile);
+
+    return Math.min(Math.round(score), 100);
 }
 
 export function getMatchLevel(score) {
@@ -153,7 +276,13 @@ export function getMatchLevel(score) {
 
 export function sortByMatch(fundingList, profile) {
     return fundingList
-        .map(f => ({ ...f, matchScore: calculateMatchScore(f, profile) }))
+        .map(f => ({
+            ...f,
+            matchScore: calculateMatchScore(f, profile),
+            _eligibility: evaluateEligibility(f.id, profile),
+            _staleness: getStaleness(f),
+            _effectiveStatus: getEffectiveStatus(f),
+        }))
         .sort((a, b) => b.matchScore - a.matchScore);
 }
 

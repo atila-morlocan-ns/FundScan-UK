@@ -46,9 +46,13 @@ function filterFunding() {
         results = results.filter(f => f.type === currentFilters.type);
     }
 
-    // Status
+    // Status (use effective status which auto-corrects based on dates)
     if (currentFilters.status) {
-        results = results.filter(f => f.status === currentFilters.status);
+        if (currentFilters.status === 'eligible') {
+            results = results.filter(f => f._eligibility && f._eligibility.status === 'eligible');
+        } else {
+            results = results.filter(f => (f._effectiveStatus || f.status) === currentFilters.status);
+        }
     }
 
     // Sort
@@ -160,6 +164,7 @@ export function renderScanner() {
             <option value="open" ${currentFilters.status === 'open' ? 'selected' : ''}>🟢 Open</option>
             <option value="upcoming" ${currentFilters.status === 'upcoming' ? 'selected' : ''}>🔵 Upcoming</option>
             <option value="closed" ${currentFilters.status === 'closed' ? 'selected' : ''}>⚪ Closed</option>
+            <option value="eligible" ${currentFilters.status === 'eligible' ? 'selected' : ''}>✅ Eligible Only</option>
           </select>
         </div>
         <div class="filter-group">

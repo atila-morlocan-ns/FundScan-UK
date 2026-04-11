@@ -15,7 +15,15 @@ const DEFAULT_PROFILE = {
     fundingNeeded: 250000,
     sectors: ['healthtech', 'ai', 'lifescience'],
     stages: ['mvp', 'revenue'],
+    // Eligibility fields
+    companyAge: 1,
+    ukRegistered: true,
+    trl: 5,
+    hasNHSPartner: false,
+    hasAcademicPartner: false,
+    regulatoryStatus: 'pre-submission', // none | pre-submission | submitted | approved
 };
+
 
 export function getProfile() {
     try {

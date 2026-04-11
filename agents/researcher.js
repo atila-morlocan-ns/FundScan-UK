@@ -72,6 +72,36 @@ const PORTAL_SOURCES = [
     },
 ];
 
+// ─── NOISE FILTER: Remove irrelevant URLs ───────────────
+// These patterns match navigation pages, career funding, and 
+// hyper-local grants that waste verifier/scraper time
+const NOISE_PATTERNS = [
+    /\/apply-for-funding\/?$/,                // Generic "how to apply" landing pages
+    /\/before-you-apply/,                     // Guidance pages
+    /\/how-we-make-decisions/,                // Process pages
+    /\/improving-your-funding-experience/,    // Meta pages
+    /\/develop-your-application/,             // Guidance pages
+    /\/meeting-ukri-terms/,                   // Terms pages
+    /\/getting-your-funding/,                 // Post-award pages
+    /\/what-we-have-funded/,                  // Historical pages
+    /\/who-we-fund/,                          // Info pages
+    /\/responsibilities-after-funding/,       // Post-award
+    /career|predoctoral|postdoctoral|professorships/i, // Academic career funding
+    /election-study|northern-ireland/i,       // Non-relevant UKRI grants
+    /mansfield|scarborough|greenwich|bexley|elmbridge|adur|worthing|bedfordshire|enfield|waltham/i, // Hyper-local council grants
+    /aerospace|zero-emission-flight|quantum-technologies|semiconductor/i, // Off-sector
+    /login|sign-in|ReturnUrl/i,               // Login portals
+    /archive|webarchive/i,                    // Archived pages
+    /case-studies|faqs|guidance-for-applicants/i, // Support pages
+    /global-health|international-funding/i,   // Not UK-specific grants
+    /filter_order/,                           // Sort/filter URLs (not actual grants)
+];
+
+function isNoiseUrl(url, title = '') {
+    const combined = url + ' ' + title.toLowerCase();
+    return NOISE_PATTERNS.some(p => p.test(combined));
+}
+
 // Scrape a listing page for individual opportunity links
 async function scrapePortalLinks(source) {
     try {
@@ -120,6 +150,9 @@ async function scrapePortalLinks(source) {
                     text.toLowerCase().includes('competition');
 
                 if (isRelevant && !href.includes('#') && !href.includes('mailto:')) {
+                    // Apply noise filter
+                    if (isNoiseUrl(fullUrl, text)) return;
+                    
                     links.push({
                         url: fullUrl,
                         title: text.slice(0, 150),
@@ -142,11 +175,14 @@ async function scrapePortalLinks(source) {
 async function geminiResearch() {
     log('\n🤖 Asking Gemini for current UK funding opportunities...', 'search');
 
-    const prompt = `You are a UK startup funding research expert. List current and upcoming UK government/public funding opportunities for startups in 2026, especially for:
+    const prompt = `You are a UK startup funding research expert. You are researching funding for a UK MedTech startup that uses computer vision and Vision Language Models for fall detection and medical event monitoring in elderly care.
+
+List current and upcoming UK government/public funding opportunities in 2026, especially for:
 - MedTech / HealthTech / AI in health
-- Computer vision, AI, machine learning
-- Elderly care, fall detection, assisted living
-- General UK innovation grants
+- Fall prevention, patient safety, elderly care technology
+- Computer vision, AI, machine learning in care settings
+- Remote monitoring, assisted living, social care AI
+- General UK innovation grants open to health AI startups
 
 For EACH opportunity, provide:
 1. Name of the programme
@@ -156,17 +192,19 @@ For EACH opportunity, provide:
 5. Approximate amount range
 6. Status: open, upcoming, or closed
 
-Focus on:
+Prioritise funds that specifically mention: fall prevention, patient safety, AI in social care, remote monitoring, elderly care technology, MHRA-regulated devices.
+
+Also include:
 - Innovate UK competitions (IFS portal)
 - UKRI research council grants
 - SBRI Healthcare
 - NIHR funding
 - NHS AI Lab programmes
 - British Business Bank schemes
-- Catapult programmes
+- Catapult programmes (especially Medicines Discovery)
 - AHSN accelerators
 - Tax schemes (SEIS, EIS, R&D Tax Credits)
-- Private accelerators operating in UK (Techstars, etc.)
+- CareCity and AAL Programme
 
 Return as a JSON array of objects with fields: name, provider, url, description, amountMin, amountMax, status.
 Return ONLY the JSON array, no markdown.`;

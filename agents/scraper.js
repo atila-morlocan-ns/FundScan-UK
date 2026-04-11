@@ -266,6 +266,15 @@ Extract the following fields into a JSON object. BE PRECISE AND ACCURATE — I w
   "sectors": [array of relevant sectors from: ${VALID_SECTORS.join(', ')}],
   "stages": [array of applicable stages from: ${VALID_STAGES.join(', ')}],
   "eligibility": ["array of eligibility requirements as strings"],
+  "eligibilityRules": {
+    "companySize": "sme or micro or any (based on stated requirements)",
+    "ukRegistered": true or false,
+    "trlMin": minimum TRL level if mentioned (integer 1-9, or null),
+    "trlMax": maximum TRL level if mentioned (integer 1-9, or null),
+    "collaborationRequired": true or false,
+    "nhsPartnerRequired": true or false,
+    "matchFundingPercent": 0-100 (percentage of match funding required, 0 if fully funded)
+  },
   "applicationUrl": "URL to apply or find more details",
   "status": "One of: open, upcoming, closed (based on dates found on the page)",
   "openDate": "YYYY-MM-DD format ONLY if explicitly stated on the page, otherwise null",

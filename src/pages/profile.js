@@ -103,6 +103,57 @@ export function renderProfile() {
           </div>
         </div>
 
+        <!-- Eligibility Details (NEW) -->
+        <div class="card" style="margin-bottom:var(--space-lg);">
+          <h2 style="font-size:var(--font-lg); font-weight:700; margin-bottom:var(--space-sm);">📋 Eligibility Details</h2>
+          <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-bottom:var(--space-lg);">
+            These details improve match accuracy and enable eligibility checking
+          </p>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md);">
+            <div class="form-group">
+              <label class="form-label" for="trl">Technology Readiness Level (TRL)</label>
+              <select class="form-select" id="trl">
+                <option value="">Unknown</option>
+                ${[1,2,3,4,5,6,7,8,9].map(t => `<option value="${t}" ${profile.trl == t ? 'selected' : ''}>TRL ${t}${t<=2?' — Concept':t<=4?' — Lab/Prototype':t<=6?' — Pilot/MVP':t<=8?' — Deployed':' — Commercial'}</option>`).join('')}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="company-age">Company Age (years)</label>
+              <select class="form-select" id="company-age">
+                <option value="">Unknown</option>
+                ${[0,1,2,3,4,5,6,7,10,15].map(a => `<option value="${a}" ${profile.companyAge == a ? 'selected' : ''}>${a === 0 ? 'Pre-incorporation' : a === 1 ? '< 1 year' : a + ' years'}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md);">
+            <div class="form-group">
+              <label class="form-label" for="reg-status">Regulatory Status</label>
+              <select class="form-select" id="reg-status">
+                <option value="none" ${profile.regulatoryStatus === 'none' ? 'selected' : ''}>Not applicable</option>
+                <option value="pre-submission" ${profile.regulatoryStatus === 'pre-submission' ? 'selected' : ''}>Pre-submission</option>
+                <option value="submitted" ${profile.regulatoryStatus === 'submitted' ? 'selected' : ''}>Submitted</option>
+                <option value="approved" ${profile.regulatoryStatus === 'approved' ? 'selected' : ''}>Approved</option>
+              </select>
+            </div>
+            <div class="form-group" style="display:flex; flex-direction:column; gap:var(--space-sm); padding-top:var(--space-lg);">
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="uk-registered" ${profile.ukRegistered !== false ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🇬🇧 UK Registered Company
+              </label>
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="nhs-partner" ${profile.hasNHSPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🏥 NHS Partner / Clinical site
+              </label>
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="academic-partner" ${profile.hasAcademicPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🎓 Academic / University Partner
+              </label>
+            </div>
+          </div>
+        </div>
+
         <!-- Save -->
         <div style="display:flex; gap:var(--space-md); justify-content:flex-end;">
           <button type="button" class="btn btn-secondary" onclick="window.location.hash='/dashboard'">Cancel</button>
@@ -148,6 +199,9 @@ export function afterRenderProfile() {
             const selectedStages = Array.from(document.querySelectorAll('#stage-chips .chip.selected'))
                 .map(c => c.dataset.stage);
 
+            const trlVal = document.getElementById('trl')?.value;
+            const ageVal = document.getElementById('company-age')?.value;
+
             const profile = {
                 companyName: document.getElementById('company-name').value.trim(),
                 companyDesc: document.getElementById('company-desc').value.trim(),
@@ -155,6 +209,13 @@ export function afterRenderProfile() {
                 fundingNeeded: parseInt(document.getElementById('funding-needed').value) || null,
                 sectors: selectedSectors,
                 stages: selectedStages,
+                // Eligibility fields
+                trl: trlVal ? parseInt(trlVal) : null,
+                companyAge: ageVal ? parseInt(ageVal) : null,
+                ukRegistered: document.getElementById('uk-registered')?.checked ?? true,
+                hasNHSPartner: document.getElementById('nhs-partner')?.checked ?? false,
+                hasAcademicPartner: document.getElementById('academic-partner')?.checked ?? false,
+                regulatoryStatus: document.getElementById('reg-status')?.value || 'none',
             };
 
             saveProfile(profile);
