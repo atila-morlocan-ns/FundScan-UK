@@ -22,6 +22,7 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **Detail Pages** — Full breakdown with **📋 Eligibility Check panel** (per-check pass/fail with Required/Preferred tags), staleness badge, disabled Apply when closed, related opportunities with badges, and sidebar key facts
 - **⭐ Shortlist & Favourites** — Star-toggle on any funding card to save it. Shortlist page with stats, inline notes, and "Start Tracking" flow
 - **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar
+- **🎓 Expert Assessor** — 6-step guided wizard: Company Basics → Technology → Market & Traction → Evidence & Assets → Funding Target → Readiness Report. Generates per-dimension scores, top funder matches, and actionable recommendations. Saves results to profile
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
@@ -236,7 +237,6 @@ FundScan-UK/
 - [x] GitHub deployment
 
 ### 🔜 Planned
-- [ ] **Expert Assessor** — 6-step guided wizard to extract startup details and generate readiness report
 - [ ] **Funding Calendar** — Visual timeline of open/close dates
 
 ---
@@ -289,6 +289,16 @@ npm run build
 - 📋 Detail page: Added "Shortlist" and "Track" action buttons in sidebar
 - 🔒 Privacy: Shortlist and Tracker data included in purge controls
 - App expanded from 10 to 12 pages
+
+### v2.3.0 — 2026-04-11
+**Expert Assessor**
+- 🎓 6-step wizard: Company Basics, Technology Readiness, Market & Traction, Evidence & Assets, Funding Target, Readiness Report
+- 📊 Report: Overall readiness score, 5 dimension bars (Technology, Market, Evidence, Team, Funding Fit)
+- 🏆 Top 8 funder matches with eligibility badges and match scores
+- 📋 AI-generated actionable recommendations (colour-coded success/warning/info)
+- 💾 Save to Profile: carry assessment answers back into the user profile
+- 🔄 Start Over button to re-run assessment with different answers
+- App expanded to 13 pages
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

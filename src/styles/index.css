@@ -1574,3 +1574,275 @@ input, select, textarea { font-family: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Expert Assessor ─────────── */
+.assessor-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.assessor-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+  min-width: 70px;
+}
+
+.assessor-step.active {
+  opacity: 1;
+}
+
+.assessor-step.done {
+  opacity: 0.8;
+}
+
+.assessor-step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid var(--border-glass);
+  transition: all 0.3s;
+}
+
+.assessor-step.active .assessor-step-icon {
+  border-color: var(--accent-primary);
+  background: rgba(99,102,241,0.15);
+  box-shadow: 0 0 12px rgba(99,102,241,0.3);
+}
+
+.assessor-step.done .assessor-step-icon {
+  border-color: var(--accent-success);
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+}
+
+.assessor-step-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.assessor-step.active .assessor-step-label {
+  color: var(--text-primary);
+}
+
+.assessor-step-line {
+  flex: 1;
+  max-width: 40px;
+  min-width: 12px;
+  height: 2px;
+  background: var(--border-glass);
+  margin: 0 2px;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+.assessor-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-lg);
+  gap: var(--space-md);
+}
+
+/* Form controls */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-input,
+.form-select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+/* Evidence checklist */
+.evidence-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-sm);
+}
+
+.evidence-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.evidence-check-item:hover {
+  border-color: var(--border-glass-hover);
+  background: rgba(255,255,255,0.04);
+}
+
+.evidence-check-item input[type="checkbox"] {
+  accent-color: var(--accent-primary);
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Sector chips */
+.sector-chip {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-glass);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.sector-chip:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary-light);
+}
+
+.sector-chip.active {
+  background: rgba(99,102,241,0.15);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary-light);
+}
+
+/* Report */
+.report-overall {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+}
+
+.report-score-ring {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.report-score-ring svg {
+  width: 100%;
+  height: 100%;
+}
+
+.report-score-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-2xl);
+  font-weight: 800;
+}
+
+.report-dimensions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.report-dimension {
+  padding: var(--space-md);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+}
+
+.report-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.report-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.report-fund-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.report-fund-row:hover {
+  border-color: var(--border-glass-hover);
+  background: rgba(255,255,255,0.04);
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-overall {
+    flex-direction: column;
+    text-align: center;
+  }
+  .report-dimensions {
+    grid-template-columns: 1fr;
+  }
+}
