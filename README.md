@@ -23,6 +23,7 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **⭐ Shortlist & Favourites** — Star-toggle on any funding card to save it. Shortlist page with stats, inline notes, and "Start Tracking" flow
 - **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar
 - **🎓 Expert Assessor** — 6-step guided wizard: Company Basics → Technology → Market & Traction → Evidence & Assets → Funding Target → Readiness Report. Generates per-dimension scores, top funder matches, and actionable recommendations. Saves results to profile
+- **📅 Funding Calendar** — Visual timeline of closing/opening dates grouped by month. Stats bar, Closing/Opening toggle, Eligible-only and Shortlisted filters, urgency badges (red ≤14d, amber ≤30d), clickable to detail pages
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
@@ -237,7 +238,8 @@ FundScan-UK/
 - [x] GitHub deployment
 
 ### 🔜 Planned
-- [ ] **Funding Calendar** — Visual timeline of open/close dates
+- [ ] **CSV Export** — Download Shortlist/Tracker data as CSV
+- [ ] **Drag-and-Drop Kanban** — Drag tracker cards between pipeline stages
 
 ---
 
@@ -299,6 +301,17 @@ npm run build
 - 💾 Save to Profile: carry assessment answers back into the user profile
 - 🔄 Start Over button to re-run assessment with different answers
 - App expanded to 13 pages
+
+### v2.4.0 — 2026-04-11
+**Funding Calendar**
+- 📅 Visual timeline grouped by month with fund count badges
+- 🔴/🟢 Toggle between Closing Dates and Opening Dates views
+- Stats bar: Total Funds, This Month, Next 30 Days, Urgent (≤14d)
+- ✅ Eligible only / ⭐ Shortlisted filter checkboxes
+- Urgency colour coding: red (≤14d), amber (≤30d), past (faded)
+- Each item shows: date badge, status, eligibility, match %, amount, provider
+- Click any item to navigate to detail page
+- App expanded to 14 pages
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

@@ -18,6 +18,7 @@ import { renderUpload, afterRenderUpload } from './pages/upload.js';
 import { renderShortlist, afterRenderShortlist } from './pages/shortlist.js';
 import { renderTracker, afterRenderTracker } from './pages/tracker.js';
 import { renderAssessor, afterRenderAssessor } from './pages/assessor.js';
+import { renderCalendar, afterRenderCalendar } from './pages/calendar.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
 import { getEffectiveStatus } from './match-engine.js';
 import { setLastVisit, getShortlist } from './store.js';
@@ -68,6 +69,7 @@ function renderShell() {
         </li>
         <li><a href="#/tracker" data-route="/tracker">📊 Tracker</a></li>
         <li><a href="#/assessor" data-route="/assessor">🎓 Assessor</a></li>
+        <li><a href="#/calendar" data-route="/calendar">📅 Calendar</a></li>
         <li><a href="#/profile" data-route="/profile">⚙️ Profile</a></li>
       </ul>
       <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
@@ -162,6 +164,11 @@ function setupRouter(container) {
             path: '/assessor',
             render: () => renderAssessor(),
             afterRender: () => afterRenderAssessor(),
+        },
+        {
+            path: '/calendar',
+            render: () => renderCalendar(),
+            afterRender: () => afterRenderCalendar(),
         },
     ]);
 
