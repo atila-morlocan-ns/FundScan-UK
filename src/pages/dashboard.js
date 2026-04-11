@@ -95,7 +95,7 @@ export function renderDashboard() {
           <div class="stat-label">Coming Soon</div>
         </div>
         <div class="card stat-card">
-          <div class="stat-number">${profile ? topMatches.filter(f => f.matchScore >= 60).length : '—'}</div>
+          <div class="stat-number">${profile ? matched.filter(f => f.matchScore >= 60).length : '—'}</div>
           <div class="stat-label">Strong Matches</div>
         </div>
         <div class="card stat-card">

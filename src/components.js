@@ -5,7 +5,24 @@
 
 import { formatAmount, daysUntil, getSectorById } from './data/funding-sources.js';
 import { getMatchLevel, getEffectiveStatus, getStaleness } from './match-engine.js';
-import { isShortlisted } from './store.js';
+import { isShortlisted, addToShortlist, removeFromShortlist } from './store.js';
+
+// Global star toggle handler (called from inline onclick on funding cards)
+window.__toggleStar = function(fundId, event) {
+    event.stopPropagation();
+    const btn = event.currentTarget;
+    if (isShortlisted(fundId)) {
+        removeFromShortlist(fundId);
+        btn.classList.remove('active');
+        btn.textContent = '☆';
+        btn.title = 'Add to shortlist';
+    } else {
+        addToShortlist(fundId);
+        btn.classList.add('active');
+        btn.textContent = '★';
+        btn.title = 'Remove from shortlist';
+    }
+};
 
 // Circular match score ring (SVG)
 export function renderMatchRing(score, size = 48) {
@@ -99,7 +116,7 @@ export function renderFundingCard(funding, matchScore = 0) {
 
     return `
     <div class="card funding-card" style="position:relative;" onclick="window.location.hash='/detail/${funding.id}'">
-      <button class="star-toggle ${starred ? 'active' : ''}" data-star-toggle="${funding.id}" onclick="event.stopPropagation();" title="${starred ? 'Remove from shortlist' : 'Add to shortlist'}">
+      <button class="star-toggle ${starred ? 'active' : ''}" data-star-toggle="${funding.id}" onclick="window.__toggleStar('${funding.id}', event)" title="${starred ? 'Remove from shortlist' : 'Add to shortlist'}">
         ${starred ? '★' : '☆'}
       </button>
       <div class="funding-card-header">

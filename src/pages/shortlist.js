@@ -4,8 +4,7 @@
 // ═══════════════════════════════════════════════════════
 
 import { fundingSources, formatAmount, daysUntil } from '../data/funding-sources.js';
-import { getShortlist, removeFromShortlist, updateShortlistNote, addTrackerItem, getTrackerItem } from '../store.js';
-import { getProfile } from '../store.js';
+import { getShortlist, removeFromShortlist, updateShortlistNote, addTrackerItem, getTrackerItem, getProfile } from '../store.js';
 import { calculateMatchScore, getEffectiveStatus } from '../match-engine.js';
 import { evaluateEligibility } from '../data/eligibility-rules.js';
 import { renderMatchRing, renderEligibilityBadge } from '../components.js';

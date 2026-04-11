@@ -203,7 +203,7 @@ export function renderDetail(params) {
             </div>
             <div class="detail-info-row">
               <span class="detail-info-label">Closes</span>
-              <span class="detail-info-value ${days > 0 && days <= 30 ? 'style="color:var(--accent-warning);"' : ''}">
+              <span class="detail-info-value" ${days > 0 && days <= 30 ? 'style="color:var(--accent-warning);"' : ''}>
                 ${new Date(funding.closeDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                 ${days > 0 && days <= 60 ? `<br><span style="font-size:var(--font-xs); color:var(--accent-warning);">${days} days left</span>` : ''}
                 ${days <= 0 && effectiveStatus === 'open' ? '' : days <= 0 ? `<br><span style="font-size:var(--font-xs); color:var(--text-muted);">Deadline passed</span>` : ''}
