@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════
 
 import { fundingSources, SECTORS, STAGES, FUNDING_TYPES, formatAmount, daysUntil, getSectorById, getStageById } from '../data/funding-sources.js';
-import { getProfile } from '../store.js';
+import { getProfile, isShortlisted, addToShortlist, removeFromShortlist, getTrackerItem, addTrackerItem } from '../store.js';
 import { calculateMatchScore, getMatchLevel, getEffectiveStatus, getStaleness } from '../match-engine.js';
 import { evaluateEligibility } from '../data/eligibility-rules.js';
 import { renderMatchRing, renderFundingCard, renderEligibilityBadge } from '../components.js';
@@ -67,6 +67,9 @@ export function renderDetail(params) {
     const stalenessHtml = staleness.level !== 'fresh'
         ? `<span style="color:${staleness.level === 'stale' ? '#f87171' : '#fbbf24'}; font-size:var(--font-xs); margin-left:var(--space-sm);">${staleness.label}</span>`
         : `<span style="color:#10b981; font-size:var(--font-xs); margin-left:var(--space-sm);">✅ Recently verified</span>`;
+
+    const starred = isShortlisted(funding.id);
+    const tracked = getTrackerItem(funding.id);
 
     return `
     <div class="container">
@@ -230,10 +233,53 @@ export function renderDetail(params) {
               <a href="#/scanner" class="btn btn-secondary" style="justify-content:center;">
                 ← Back to Scanner
               </a>
+              <div style="display:flex; gap:var(--space-sm);">
+                <button class="btn ${starred ? 'btn-primary' : 'btn-secondary'}" style="flex:1; justify-content:center; font-size:var(--font-xs);" id="detail-star-btn" data-fund-id="${funding.id}">
+                  ${starred ? '★ Shortlisted' : '☆ Shortlist'}
+                </button>
+                ${!tracked ? `
+                <button class="btn btn-secondary" style="flex:1; justify-content:center; font-size:var(--font-xs);" id="detail-track-btn" data-fund-id="${funding.id}">
+                  📊 Track
+                </button>` : `
+                <a href="#/tracker" class="btn btn-secondary" style="flex:1; justify-content:center; font-size:var(--font-xs);">
+                  📊 In Pipeline →
+                </a>`}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   `;
+}
+
+export function afterRenderDetail() {
+    // Star toggle
+    const starBtn = document.getElementById('detail-star-btn');
+    if (starBtn) {
+        starBtn.addEventListener('click', () => {
+            const fundId = starBtn.dataset.fundId;
+            if (isShortlisted(fundId)) {
+                removeFromShortlist(fundId);
+                starBtn.className = 'btn btn-secondary';
+                starBtn.style.cssText += 'flex:1; justify-content:center; font-size:var(--font-xs);';
+                starBtn.textContent = '☆ Shortlist';
+            } else {
+                addToShortlist(fundId);
+                starBtn.className = 'btn btn-primary';
+                starBtn.style.cssText += 'flex:1; justify-content:center; font-size:var(--font-xs);';
+                starBtn.textContent = '★ Shortlisted';
+            }
+        });
+    }
+
+    // Track button
+    const trackBtn = document.getElementById('detail-track-btn');
+    if (trackBtn) {
+        trackBtn.addEventListener('click', () => {
+            const fundId = trackBtn.dataset.fundId;
+            addTrackerItem(fundId, 'researching');
+            trackBtn.outerHTML = `<a href="#/tracker" class="btn btn-secondary" style="flex:1; justify-content:center; font-size:var(--font-xs);">📊 In Pipeline →</a>`;
+        });
+    }
 }

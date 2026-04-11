@@ -5,6 +5,7 @@
 
 import { formatAmount, daysUntil, getSectorById } from './data/funding-sources.js';
 import { getMatchLevel, getEffectiveStatus, getStaleness } from './match-engine.js';
+import { isShortlisted } from './store.js';
 
 // Circular match score ring (SVG)
 export function renderMatchRing(score, size = 48) {
@@ -93,8 +94,14 @@ export function renderFundingCard(funding, matchScore = 0) {
     // Staleness badge
     const stalenessHtml = renderStalenessBadge(funding);
 
+    // Shortlist star
+    const starred = isShortlisted(funding.id);
+
     return `
-    <div class="card funding-card" onclick="window.location.hash='/detail/${funding.id}'">
+    <div class="card funding-card" style="position:relative;" onclick="window.location.hash='/detail/${funding.id}'">
+      <button class="star-toggle ${starred ? 'active' : ''}" data-star-toggle="${funding.id}" onclick="event.stopPropagation();" title="${starred ? 'Remove from shortlist' : 'Add to shortlist'}">
+        ${starred ? '★' : '☆'}
+      </button>
       <div class="funding-card-header">
         <div>
           <div class="funding-card-provider">${funding.provider}</div>

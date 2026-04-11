@@ -7,7 +7,7 @@ import './styles/index.css';
 import { Router } from './router.js';
 import { renderDashboard } from './pages/dashboard.js';
 import { renderScanner, afterRenderScanner } from './pages/scanner.js';
-import { renderDetail } from './pages/detail.js';
+import { renderDetail, afterRenderDetail } from './pages/detail.js';
 import { renderProfile, afterRenderProfile } from './pages/profile.js';
 import { renderAlerts, afterRenderAlerts } from './pages/alerts.js';
 import { renderVault, afterRenderVault } from './pages/vault.js';
@@ -15,9 +15,11 @@ import { renderStack, afterRenderStack } from './pages/stack.js';
 import { renderStrategy } from './pages/strategy.js';
 import { renderRegional } from './pages/regional.js';
 import { renderUpload, afterRenderUpload } from './pages/upload.js';
+import { renderShortlist, afterRenderShortlist } from './pages/shortlist.js';
+import { renderTracker, afterRenderTracker } from './pages/tracker.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
 import { getEffectiveStatus } from './match-engine.js';
-import { setLastVisit } from './store.js';
+import { setLastVisit, getShortlist } from './store.js';
 
 // Count urgent alerts
 function getUrgentCount() {
@@ -57,6 +59,13 @@ function renderShell() {
         <li><a href="#/strategy" data-route="/strategy">⏰ Strategy</a></li>
         <li><a href="#/regional" data-route="/regional">🗺️ Surrey</a></li>
         <li><a href="#/upload" data-route="/upload">📄 Deck</a></li>
+        <li>
+          <a href="#/shortlist" data-route="/shortlist">
+            ⭐ Shortlist
+            ${getShortlist().length > 0 ? `<span class="nav-badge">${getShortlist().length}</span>` : ''}
+          </a>
+        </li>
+        <li><a href="#/tracker" data-route="/tracker">📊 Tracker</a></li>
         <li><a href="#/profile" data-route="/profile">⚙️ Profile</a></li>
       </ul>
       <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
@@ -102,6 +111,7 @@ function setupRouter(container) {
         {
             path: '/detail',
             render: (params) => renderDetail(params),
+            afterRender: () => afterRenderDetail(),
         },
         {
             path: '/profile',
@@ -135,6 +145,16 @@ function setupRouter(container) {
             path: '/upload',
             render: () => renderUpload(),
             afterRender: () => afterRenderUpload(),
+        },
+        {
+            path: '/shortlist',
+            render: () => renderShortlist(),
+            afterRender: () => afterRenderShortlist(),
+        },
+        {
+            path: '/tracker',
+            render: () => renderTracker(),
+            afterRender: () => afterRenderTracker(),
         },
     ]);
 

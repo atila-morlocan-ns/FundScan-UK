@@ -20,6 +20,8 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **Deadline Alerts** — Closing-soon warnings at 30/60 day thresholds
 - **Application Tips** — Real tips and success rates for each funding source
 - **Detail Pages** — Full breakdown with **📋 Eligibility Check panel** (per-check pass/fail with Required/Preferred tags), staleness badge, disabled Apply when closed, related opportunities with badges, and sidebar key facts
+- **⭐ Shortlist & Favourites** — Star-toggle on any funding card to save it. Shortlist page with stats, inline notes, and "Start Tracking" flow
+- **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar
 - **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions
 
@@ -235,8 +237,6 @@ FundScan-UK/
 
 ### 🔜 Planned
 - [ ] **Expert Assessor** — 6-step guided wizard to extract startup details and generate readiness report
-- [ ] **Favourites & Shortlist** — Save funds, add notes, filter by shortlisted
-- [ ] **Application Tracker** — Kanban pipeline: Researching → Preparing → Submitted → Outcome
 - [ ] **Funding Calendar** — Visual timeline of open/close dates
 
 ---
@@ -280,6 +280,15 @@ npm run build
 - 📢 Alerts: All deadline/upcoming filters use effective status — prevents stale funds from showing as active
 - 📄 Upload Save: Carries over AI-extracted TRL, company age, UK registered, regulatory status into profile
 - 🔧 Nav badge count uses effective status for accurate urgency indicators
+
+### v2.2.0 — 2026-04-11
+**Shortlist & Application Tracker**
+- ⭐ Shortlist: Star-toggle on all funding cards (Scanner + Detail page). Dedicated shortlist page with stats, inline notes, and remove
+- 📊 Application Tracker: 4-column Kanban board (Researching → Preparing → Submitted → Outcome)
+- 📊 Tracker cards: fund details, match scores, move buttons, notes, outcome tagging (Won/Lost/Withdrawn)
+- 📋 Detail page: Added "Shortlist" and "Track" action buttons in sidebar
+- 🔒 Privacy: Shortlist and Tracker data included in purge controls
+- App expanded from 10 to 12 pages
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

@@ -142,11 +142,126 @@ export function saveApiKey(key) {
     localStorage.setItem(API_KEY_KEY, key);
 }
 
+// ─── Shortlist / Favourites ──────────────────────────
+const SHORTLIST_KEY = 'fundscan_shortlist';
+
+export function getShortlist() {
+    try {
+        const raw = localStorage.getItem(SHORTLIST_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+}
+
+function _saveShortlist(list) {
+    localStorage.setItem(SHORTLIST_KEY, JSON.stringify(list));
+}
+
+export function isShortlisted(fundId) {
+    return getShortlist().some(s => s.fundId === fundId);
+}
+
+export function addToShortlist(fundId, note = '') {
+    const list = getShortlist();
+    if (!list.find(s => s.fundId === fundId)) {
+        list.push({ fundId, note, addedAt: new Date().toISOString() });
+        _saveShortlist(list);
+    }
+    return list;
+}
+
+export function removeFromShortlist(fundId) {
+    const list = getShortlist().filter(s => s.fundId !== fundId);
+    _saveShortlist(list);
+    return list;
+}
+
+export function updateShortlistNote(fundId, note) {
+    const list = getShortlist().map(s =>
+        s.fundId === fundId ? { ...s, note } : s
+    );
+    _saveShortlist(list);
+    return list;
+}
+
+// ─── Application Tracker ─────────────────────────────
+const TRACKER_KEY = 'fundscan_tracker';
+export const TRACKER_STAGES = [
+    { id: 'researching', label: '🔍 Researching', color: '#818cf8' },
+    { id: 'preparing',   label: '✏️ Preparing',   color: '#f59e0b' },
+    { id: 'submitted',   label: '📤 Submitted',   color: '#06b6d4' },
+    { id: 'outcome',     label: '🏆 Outcome',     color: '#10b981' },
+];
+
+export function getTrackerItems() {
+    try {
+        const raw = localStorage.getItem(TRACKER_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+}
+
+function _saveTracker(items) {
+    localStorage.setItem(TRACKER_KEY, JSON.stringify(items));
+}
+
+export function addTrackerItem(fundId, stage = 'researching') {
+    const items = getTrackerItems();
+    if (!items.find(t => t.fundId === fundId)) {
+        items.push({
+            fundId,
+            stage,
+            outcome: null, // 'won' | 'lost' | 'withdrawn' — only when stage=outcome
+            notes: '',
+            addedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        });
+        _saveTracker(items);
+    }
+    return items;
+}
+
+export function updateTrackerStage(fundId, stage) {
+    const items = getTrackerItems().map(t =>
+        t.fundId === fundId
+            ? { ...t, stage, outcome: stage === 'outcome' ? (t.outcome || 'won') : null, updatedAt: new Date().toISOString() }
+            : t
+    );
+    _saveTracker(items);
+    return items;
+}
+
+export function updateTrackerOutcome(fundId, outcome) {
+    const items = getTrackerItems().map(t =>
+        t.fundId === fundId ? { ...t, outcome, updatedAt: new Date().toISOString() } : t
+    );
+    _saveTracker(items);
+    return items;
+}
+
+export function updateTrackerNotes(fundId, notes) {
+    const items = getTrackerItems().map(t =>
+        t.fundId === fundId ? { ...t, notes, updatedAt: new Date().toISOString() } : t
+    );
+    _saveTracker(items);
+    return items;
+}
+
+export function removeTrackerItem(fundId) {
+    const items = getTrackerItems().filter(t => t.fundId !== fundId);
+    _saveTracker(items);
+    return items;
+}
+
+export function getTrackerItem(fundId) {
+    return getTrackerItems().find(t => t.fundId === fundId) || null;
+}
+
 // ─── Data Inventory (for privacy dashboard) ──────────
 export function getDataInventory() {
     const profile = getProfile();
     const evidence = getEvidence();
     const stack = getStack();
+    const shortlist = getShortlist();
+    const tracker = getTrackerItems();
 
     return {
         hasProfile: !!(profile && profile.companyName),
@@ -154,6 +269,8 @@ export function getDataInventory() {
         profileSource: profile?._analysis?.source || (profile === DEFAULT_PROFILE ? 'default' : 'manual'),
         evidenceCount: Object.keys(evidence).length,
         stackCount: stack.length,
+        shortlistCount: shortlist.length,
+        trackerCount: tracker.length,
         hasApiKey: !!(localStorage.getItem(API_KEY_KEY) || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY)),
     };
 }
@@ -173,11 +290,19 @@ export function clearAllData(scope = 'all') {
         case 'apikey':
             localStorage.removeItem(API_KEY_KEY);
             break;
+        case 'shortlist':
+            localStorage.removeItem(SHORTLIST_KEY);
+            break;
+        case 'tracker':
+            localStorage.removeItem(TRACKER_KEY);
+            break;
         case 'all':
             localStorage.removeItem(PROFILE_KEY);
             localStorage.removeItem(EVIDENCE_KEY);
             localStorage.removeItem(STACK_KEY);
             localStorage.removeItem(API_KEY_KEY);
+            localStorage.removeItem(SHORTLIST_KEY);
+            localStorage.removeItem(TRACKER_KEY);
             localStorage.removeItem(LAST_VISIT_KEY);
             localStorage.removeItem(SCAN_KEY);
             break;

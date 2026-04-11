@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════
 
 import { fundingSources, SECTORS, STAGES, FUNDING_TYPES, formatAmount, daysUntil } from '../data/funding-sources.js';
-import { getProfile, getLastScan, setLastScan } from '../store.js';
+import { getProfile, getLastScan, setLastScan, addToShortlist, removeFromShortlist, isShortlisted } from '../store.js';
 import { sortByMatch, calculateMatchScore } from '../match-engine.js';
 import { renderFundingCard } from '../components.js';
 
@@ -240,4 +240,23 @@ export function afterRenderScanner() {
 
     // Initial render
     updateResults();
+
+    // Star toggle (event delegation)
+    document.getElementById('results-container')?.addEventListener('click', (e) => {
+        const starBtn = e.target.closest('[data-star-toggle]');
+        if (!starBtn) return;
+        e.stopPropagation();
+        const fundId = starBtn.dataset.starToggle;
+        if (isShortlisted(fundId)) {
+            removeFromShortlist(fundId);
+            starBtn.classList.remove('active');
+            starBtn.textContent = '☆';
+            starBtn.title = 'Add to shortlist';
+        } else {
+            addToShortlist(fundId);
+            starBtn.classList.add('active');
+            starBtn.textContent = '★';
+            starBtn.title = 'Remove from shortlist';
+        }
+    });
 }
