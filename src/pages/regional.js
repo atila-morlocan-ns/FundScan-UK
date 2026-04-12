@@ -4,9 +4,45 @@
 // ═══════════════════════════════════════════════════════
 
 import { REGIONAL_HUBS } from '../data/grant-strategy.js';
+import { getProfile } from '../store.js';
+
+const REGION_NAMES = {
+    surrey: 'Surrey & Hampshire', london: 'London', southeast: 'South East England',
+    southwest: 'South West England', eastanglia: 'East of England',
+    eastmidlands: 'East Midlands', westmidlands: 'West Midlands',
+    northwest: 'North West England', northeast: 'North East England',
+    yorkshire: 'Yorkshire & Humber', wales: 'Wales', scotland: 'Scotland', nireland: 'Northern Ireland'
+};
 
 export function renderRegional() {
-    const hub = REGIONAL_HUBS.surrey;
+    const profile = getProfile();
+    const regionId = profile?.region || 'surrey';
+    const hub = REGIONAL_HUBS[regionId];
+    const regionName = REGION_NAMES[regionId] || regionId;
+
+    // If no hub data for this region, show a helpful message
+    if (!hub) {
+        return `
+        <div class="container" style="max-width:1000px;">
+          <div style="margin-bottom:var(--space-xl);">
+            <h1 style="font-size:var(--font-3xl); font-weight:800; letter-spacing:-0.02em;">🗺️ Your Regional Hub</h1>
+            <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">
+              Regional support for <strong>${regionName}</strong>
+            </p>
+          </div>
+          <div class="card" style="text-align:center; padding:var(--space-2xl) var(--space-xl);">
+            <div style="font-size:3rem; margin-bottom:var(--space-md);">🗺️</div>
+            <div style="font-size:var(--font-xl); font-weight:700; margin-bottom:var(--space-sm);">Regional data coming soon</div>
+            <div style="color:var(--text-secondary); font-size:var(--font-sm); margin-bottom:var(--space-lg); max-width:500px; margin-inline:auto;">
+              Detailed Growth Hub, AHSN, Catapult, and university data for <strong>${regionName}</strong> is being compiled. Currently, full regional intelligence is available for Surrey & Hampshire.
+            </div>
+            <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+              <a href="#/profile" class="btn btn-primary">⚙️ Change Region</a>
+              <a href="#/scanner" class="btn btn-secondary">🔍 Browse Scanner</a>
+            </div>
+          </div>
+        </div>`;
+    }
 
     return `
     <div class="container" style="max-width:1000px;">

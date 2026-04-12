@@ -15,6 +15,9 @@ const DEFAULT_PROFILE = {
     fundingNeeded: 250000,
     sectors: ['healthtech', 'ai', 'lifescience'],
     stages: ['mvp', 'revenue'],
+    // Location
+    location: 'Epsom',
+    region: 'surrey',
     // Eligibility fields
     companyAge: 1,
     ukRegistered: true,

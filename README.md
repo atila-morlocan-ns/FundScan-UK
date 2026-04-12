@@ -21,13 +21,14 @@ Built for **[Nightingale & Sentinel](https://github.com/atila-morlocan-ns)** —
 - **Application Tips** — Real tips and success rates for each funding source
 - **Detail Pages** — Full breakdown with **📋 Eligibility Check panel** (per-check pass/fail with Required/Preferred tags), staleness badge, disabled Apply when closed, related opportunities with badges, and sidebar key facts
 - **⭐ Shortlist & Favourites** — Star-toggle on any funding card to save it. Shortlist page with stats, inline notes, and "Start Tracking" flow
-- **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar
+- **📊 Application Tracker** — Kanban pipeline board: 🔍 Researching → ✏️ Preparing → 📤 Submitted → 🏆 Outcome. Per-card notes, move buttons, outcome tagging (Won/Lost/Withdrawn), stats bar. **Clear All** button + auto-reset on new company
 - **🎓 Expert Assessor** — 6-step guided wizard: Company Basics → Technology → Market & Traction → Evidence & Assets → Funding Target → Readiness Report. Generates per-dimension scores, top funder matches, and actionable recommendations. Saves results to profile
 - **📅 Funding Calendar** — Visual timeline of closing/opening dates grouped by month. Stats bar, Closing/Opening toggle, Eligible-only and Shortlisted filters, urgency badges (red ≤14d, amber ≤30d), clickable to detail pages
+- **📍 Location & Region** — Company location (city/town) and UK region selection in profile. AI extracts location from pitch decks. Dynamic nav label and regional page adapt to selected region
 - **🔔 Toast Notifications** — Slide-in feedback for every action: shortlist toggle, profile save, tracker moves, note saves. Stackable, auto-dismiss, colour-coded (success/info/warning/error)
 - **⚡ Dashboard Quick Actions** — One-click cards for Scanner, Assessor, Calendar, and Tracker with live context (fund counts, pipeline status)
 - **🛡️ Error Boundary** — Crash-safe router with friendly error screen and recovery buttons. No more white screens on bad data
-- **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner fields
+- **Profile Persistence** — Saves to localStorage, pre-populated with N&S details. Extended with TRL, company age, regulatory status, NHS/academic partner, location, region fields
 - **Dark Glassmorphism UI** — Premium design with gradient accents, Inter font, smooth transitions, compact nav for 14 pages
 
 ### 🎯 Grant Strategy Tools (NEW)
@@ -329,6 +330,17 @@ npm run build
 - ⚡ Dashboard Quick Actions: 4-card grid linking to Scanner, Assessor, Calendar, Tracker
 - 🧭 Compact nav: tighter spacing to fit all 14 links without overflow
 - 🧹 Code quality: merged duplicate imports, removed redundant innerHTML clear
+
+### v2.6.0 — 2026-04-12
+**Location & Tracker Improvements**
+- 📍 Location & Region fields: city/town text input + UK region dropdown (13 regions) in Profile
+- 🤖 AI deck analyzer now extracts location and region from pitch decks automatically
+- 🗺️ Dynamic nav label: Regional link shows profile’s region name instead of hardcoded “Surrey”
+- 🗺️ Regional page: reads profile region, shows “coming soon” fallback for regions without hub data
+- 📊 Tracker Clear All: red “🗑️ Clear All” button in header to wipe all tracked items
+- ♻️ Auto-reset on new company: uploading a new pitch deck clears old shortlist & tracker data
+- 📍 Deck save now persists location and region from AI extraction
+- 📦 Version bumped to 2.6.0
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

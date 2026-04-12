@@ -21,7 +21,7 @@ import { renderAssessor, afterRenderAssessor } from './pages/assessor.js';
 import { renderCalendar, afterRenderCalendar } from './pages/calendar.js';
 import { fundingSources, daysUntil } from './data/funding-sources.js';
 import { getEffectiveStatus } from './match-engine.js';
-import { setLastVisit, getShortlist } from './store.js';
+import { setLastVisit, getShortlist, getProfile } from './store.js';
 
 // Count urgent alerts
 function getUrgentCount() {
@@ -38,6 +38,14 @@ function getUrgentCount() {
 // Render app shell
 function renderShell() {
     const urgentCount = getUrgentCount();
+    const profile = getProfile();
+    const regionLabels = {
+        surrey: 'Surrey', london: 'London', southeast: 'South East', southwest: 'South West',
+        eastanglia: 'East', eastmidlands: 'E. Midlands', westmidlands: 'W. Midlands',
+        northwest: 'North West', northeast: 'North East', yorkshire: 'Yorkshire',
+        wales: 'Wales', scotland: 'Scotland', nireland: 'N. Ireland'
+    };
+    const regionLabel = regionLabels[profile?.region] || 'Region';
 
     const app = document.getElementById('app');
     app.innerHTML = `
@@ -59,7 +67,7 @@ function renderShell() {
         <li><a href="#/vault" data-route="/vault">📂 Vault</a></li>
         <li><a href="#/stack" data-route="/stack">🧩 Stack</a></li>
         <li><a href="#/strategy" data-route="/strategy">⏰ Strategy</a></li>
-        <li><a href="#/regional" data-route="/regional">🗺️ Surrey</a></li>
+        <li><a href="#/regional" data-route="/regional">🗺️ ${regionLabel}</a></li>
         <li><a href="#/upload" data-route="/upload">📄 Deck</a></li>
         <li>
           <a href="#/shortlist" data-route="/shortlist">

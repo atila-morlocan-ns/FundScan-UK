@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════
 
 import { fundingSources, formatAmount, daysUntil } from '../data/funding-sources.js';
-import { getTrackerItems, updateTrackerStage, updateTrackerOutcome, updateTrackerNotes, removeTrackerItem, TRACKER_STAGES, getProfile } from '../store.js';
+import { getTrackerItems, updateTrackerStage, updateTrackerOutcome, updateTrackerNotes, removeTrackerItem, clearAllData, TRACKER_STAGES, getProfile } from '../store.js';
 import { calculateMatchScore, getEffectiveStatus } from '../match-engine.js';
 import { showToast } from '../toast.js';
 
@@ -43,6 +43,7 @@ export function renderTracker() {
           </p>
         </div>
         <div style="display:flex; gap:var(--space-sm);">
+          ${totalTracked > 0 ? '<button class="btn btn-secondary" id="clear-all-tracked" style="font-size:var(--font-xs); border-color:rgba(239,68,68,0.3); color:var(--accent-danger);">🗑️ Clear All</button>' : ''}
           <a href="#/shortlist" class="btn btn-secondary">⭐ Shortlist</a>
           <a href="#/scanner" class="btn btn-secondary">🔍 Scanner</a>
         </div>
@@ -198,4 +199,16 @@ export function afterRenderTracker() {
             }
         });
     });
+
+    // Clear all tracked
+    const clearAllBtn = document.getElementById('clear-all-tracked');
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', () => {
+            if (confirm('Clear all tracked applications? This cannot be undone.')) {
+                clearAllData('tracker');
+                showToast('All tracked applications cleared', 'info');
+                window.location.hash = '#/tracker';
+            }
+        });
+    }
 }

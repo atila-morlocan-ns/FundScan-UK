@@ -70,6 +70,33 @@ export function renderProfile() {
               </select>
             </div>
           </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md); margin-top:var(--space-md);">
+            <div class="form-group">
+              <label class="form-label" for="company-location">📍 Location (City / Town)</label>
+              <input type="text" class="form-input" id="company-location"
+                placeholder="e.g., Epsom, Manchester, Bristol..."
+                value="${profile.location || ''}">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="company-region">🗺️ Region</label>
+              <select class="form-select" id="company-region">
+                <option value="">Select region...</option>
+                <option value="surrey" ${profile.region === 'surrey' ? 'selected' : ''}>Surrey & Hampshire (Enterprise M3)</option>
+                <option value="london" ${profile.region === 'london' ? 'selected' : ''}>London</option>
+                <option value="southeast" ${profile.region === 'southeast' ? 'selected' : ''}>South East England</option>
+                <option value="southwest" ${profile.region === 'southwest' ? 'selected' : ''}>South West England</option>
+                <option value="eastanglia" ${profile.region === 'eastanglia' ? 'selected' : ''}>East of England</option>
+                <option value="eastmidlands" ${profile.region === 'eastmidlands' ? 'selected' : ''}>East Midlands</option>
+                <option value="westmidlands" ${profile.region === 'westmidlands' ? 'selected' : ''}>West Midlands</option>
+                <option value="northwest" ${profile.region === 'northwest' ? 'selected' : ''}>North West England</option>
+                <option value="northeast" ${profile.region === 'northeast' ? 'selected' : ''}>North East England</option>
+                <option value="yorkshire" ${profile.region === 'yorkshire' ? 'selected' : ''}>Yorkshire & Humber</option>
+                <option value="wales" ${profile.region === 'wales' ? 'selected' : ''}>Wales</option>
+                <option value="scotland" ${profile.region === 'scotland' ? 'selected' : ''}>Scotland</option>
+                <option value="nireland" ${profile.region === 'nireland' ? 'selected' : ''}>Northern Ireland</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Sectors -->
@@ -195,6 +222,8 @@ export function afterRenderProfile() {
                 companyDesc: document.getElementById('company-desc').value.trim(),
                 teamSize: document.getElementById('team-size').value,
                 fundingNeeded: parseInt(document.getElementById('funding-needed').value) || null,
+                location: document.getElementById('company-location')?.value.trim() || '',
+                region: document.getElementById('company-region')?.value || '',
                 sectors: selectedSectors,
                 stages: selectedStages,
                 // Eligibility fields

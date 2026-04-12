@@ -1,7 +1,7 @@
 {
   "name": "uk-funding-scanner",
   "private": true,
-  "version": "2.4.0",
+  "version": "2.6.0",
   "description": "UK Startup Funding Scanner — discover, track, and apply for funding opportunities",
   "type": "module",
   "scripts": {

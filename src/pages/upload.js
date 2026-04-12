@@ -308,6 +308,8 @@ export function afterRenderUpload() {
                 companyDesc: document.getElementById('ext-desc').value.trim(),
                 teamSize: document.getElementById('ext-team').value,
                 fundingNeeded: fundingVal ? parseInt(fundingVal) : null,
+                location: analysisResult?.location || '',
+                region: analysisResult?.region || '',
                 sectors,
                 stages,
                 // Carry over eligibility fields from AI analysis
@@ -319,6 +321,10 @@ export function afterRenderUpload() {
                 regulatoryStatus: analysis.regulatoryStatus || 'none',
                 _analysis: { source: 'pitch-deck', analyzedAt: new Date().toISOString() },
             };
+
+            // Clear old company's tracker and shortlist data
+            clearAllData('tracker');
+            clearAllData('shortlist');
 
             saveProfile(profile);
             window.location.hash = '#/scanner';

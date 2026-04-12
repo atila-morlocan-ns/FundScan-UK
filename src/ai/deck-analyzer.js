@@ -29,6 +29,8 @@ Return a JSON object with EXACTLY these fields:
   "stages": ["array of stage IDs from this list: ${VALID_STAGES.join(', ')}"],
   "teamSize": "one of: 1, 2-5, 6-10, 11-25, 26-50, 50+",
   "fundingNeeded": integer in GBP (best estimate from the deck, e.g. 250000 for £250K),
+  "location": "City or town where the company is based (e.g. 'Epsom', 'Manchester', 'Bristol')",
+  "region": "UK region ID from this list: surrey, london, southeast, southwest, eastanglia, eastmidlands, westmidlands, northwest, northeast, yorkshire, wales, scotland, nireland",
   "keyDifferentiators": ["3-5 bullet points on what makes this company unique"],
   "targetMarket": "Brief description of the target market and size if mentioned",
   "trl": integer 1-9 (Technology Readiness Level, estimate from product maturity described),
@@ -47,6 +49,8 @@ RULES:
 - If you cannot determine a field, use null — do NOT guess.
 - fundingNeeded should be an integer in GBP. If the deck mentions a raise amount, use that. If not, estimate based on stage and sector, or use null.
 - For teamSize, infer from team slide or mentions. Default to "2-5" if unclear.
+- For location, extract the city/town from the deck (look for addresses, registered office, "based in" mentions). Use null if not mentioned.
+- For region, map the location to the closest UK region ID from the list. Infer from context if location is ambiguous. Use null if not determinable.
 - Return ONLY valid JSON, no markdown or explanation.`;
 
 /**
@@ -145,6 +149,8 @@ export async function analyzePitchDeck(file, apiKey, onProgress = () => {}) {
 /**
  * Normalize and validate extracted data to match our schema
  */
+const VALID_REGIONS = ['surrey','london','southeast','southwest','eastanglia','eastmidlands','westmidlands','northwest','northeast','yorkshire','wales','scotland','nireland'];
+
 function normalizeExtraction(raw) {
     return {
         companyName: raw.companyName || '',
@@ -153,6 +159,8 @@ function normalizeExtraction(raw) {
         stages: (raw.stages || []).filter(s => VALID_STAGES.includes(s)),
         teamSize: ['1', '2-5', '6-10', '11-25', '26-50', '50+'].includes(raw.teamSize) ? raw.teamSize : '2-5',
         fundingNeeded: typeof raw.fundingNeeded === 'number' ? raw.fundingNeeded : null,
+        location: typeof raw.location === 'string' ? raw.location : '',
+        region: VALID_REGIONS.includes(raw.region) ? raw.region : '',
         // Extra metadata from analysis
         _analysis: {
             keyDifferentiators: raw.keyDifferentiators || [],
