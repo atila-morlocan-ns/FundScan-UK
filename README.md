@@ -332,15 +332,17 @@ npm run build
 - 🧹 Code quality: merged duplicate imports, removed redundant innerHTML clear
 
 ### v2.6.0 — 2026-04-12
-**Location & Tracker Improvements**
+**Location, Tracker & Eligibility Improvements**
 - 📍 Location & Region fields: city/town text input + UK region dropdown (13 regions) in Profile
 - 🤖 AI deck analyzer now extracts location and region from pitch decks automatically
-- 🗺️ Dynamic nav label: Regional link shows profile’s region name instead of hardcoded “Surrey”
-- 🗺️ Regional page: reads profile region, shows “coming soon” fallback for regions without hub data
-- 📊 Tracker Clear All: red “🗑️ Clear All” button in header to wipe all tracked items
+- 🗺️ Dynamic nav label: Regional link shows profile's region name instead of hardcoded "Surrey"
+- 🗺️ Regional page: reads profile region, shows "coming soon" fallback for regions without hub data
+- 📊 Tracker Clear All: red "🗑️ Clear All" button in header to wipe all tracked items
 - ♻️ Auto-reset on new company: uploading a new pitch deck clears old shortlist & tracker data
 - 📍 Deck save now persists location and region from AI extraction
-- 📦 Version bumped to 2.6.0
+- 🏛️ Generic Regulatory Body dropdown: FCA, MHRA, Ofgem, Ofcom, HSE, ICO, CAA, EA, CE/UKCA (replaces NHS-only "Regulatory Status")
+- 🤝 Partnership Status: 4 generic checkboxes (Academic, Clinical/NHS, Industry, Government) replace NHS-specific fields
+- 🔄 Legacy compat: old hasNHSPartner and regulatoryStatus still mapped for eligibility rules
 
 ### v1.4.0 — 2026-03-04
 **Anti-Hallucination Pipeline**

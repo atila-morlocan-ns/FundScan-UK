@@ -217,15 +217,15 @@ export function evaluateEligibility(fundId, profile) {
         }
     }
 
-    // ── NHS Partner ──
+    // ── NHS / Clinical Partner ──
     if (rules.nhsPartner) {
-        const pass = !!profile.hasNHSPartner;
+        const pass = !!(profile.hasNHSPartner || profile.hasClinicalPartner);
         const weight = rules.nhsPartner.required ? 15 : (rules.nhsPartner.preferred ? 8 : 3);
         totalWeight += weight;
         if (pass) earnedWeight += weight;
         else if (rules.nhsPartner.required) hasBlocker = true;
         else if (rules.nhsPartner.preferred) earnedWeight += weight * 0.3; // partial for preferred
-        checks.push({ field: 'NHS Partner', pass, required: rules.nhsPartner.required, preferred: rules.nhsPartner.preferred });
+        checks.push({ field: 'Clinical / NHS Partner', pass, required: rules.nhsPartner.required, preferred: rules.nhsPartner.preferred });
     }
 
     // ── Academic Partner ──
@@ -251,7 +251,8 @@ export function evaluateEligibility(fundId, profile) {
 
     // ── Regulatory Pathway ──
     if (rules.regulatoryPathway) {
-        const hasPathway = profile.regulatoryStatus && profile.regulatoryStatus !== 'none';
+        const hasPathway = (profile.regulatoryBody && profile.regulatoryBody !== 'none') ||
+                           (profile.regulatoryStatus && profile.regulatoryStatus !== 'none');
         const weight = rules.regulatoryPathway.required ? 10 : 5;
         totalWeight += weight;
         if (hasPathway) earnedWeight += weight;

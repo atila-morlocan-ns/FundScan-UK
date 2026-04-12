@@ -22,9 +22,15 @@ const DEFAULT_PROFILE = {
     companyAge: 1,
     ukRegistered: true,
     trl: 5,
-    hasNHSPartner: false,
+    regulatoryBody: 'mhra', // none | fca | mhra | ofgem | ofcom | hse | ico | caa | ea | ce-ukca | other
+    // Partnership status
     hasAcademicPartner: false,
-    regulatoryStatus: 'pre-submission', // none | pre-submission | submitted | approved
+    hasClinicalPartner: false,
+    hasIndustryPartner: false,
+    hasGovPartner: false,
+    // Legacy compat (mapped from new fields)
+    hasNHSPartner: false,
+    regulatoryStatus: 'pre-submission',
 };
 
 

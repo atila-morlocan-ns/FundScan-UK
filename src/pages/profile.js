@@ -157,12 +157,19 @@ export function renderProfile() {
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md);">
             <div class="form-group">
-              <label class="form-label" for="reg-status">Regulatory Status</label>
-              <select class="form-select" id="reg-status">
-                <option value="none" ${profile.regulatoryStatus === 'none' ? 'selected' : ''}>Not applicable</option>
-                <option value="pre-submission" ${profile.regulatoryStatus === 'pre-submission' ? 'selected' : ''}>Pre-submission</option>
-                <option value="submitted" ${profile.regulatoryStatus === 'submitted' ? 'selected' : ''}>Submitted</option>
-                <option value="approved" ${profile.regulatoryStatus === 'approved' ? 'selected' : ''}>Approved</option>
+              <label class="form-label" for="reg-body">Regulatory Body / Pathway</label>
+              <select class="form-select" id="reg-body">
+                <option value="none" ${(profile.regulatoryBody || profile.regulatoryStatus || 'none') === 'none' ? 'selected' : ''}>None / Not applicable</option>
+                <option value="fca" ${profile.regulatoryBody === 'fca' ? 'selected' : ''}>FCA — Financial Conduct Authority</option>
+                <option value="mhra" ${profile.regulatoryBody === 'mhra' ? 'selected' : ''}>MHRA — Medicines & Healthcare</option>
+                <option value="ofgem" ${profile.regulatoryBody === 'ofgem' ? 'selected' : ''}>Ofgem — Energy Regulation</option>
+                <option value="ofcom" ${profile.regulatoryBody === 'ofcom' ? 'selected' : ''}>Ofcom — Telecoms & Media</option>
+                <option value="hse" ${profile.regulatoryBody === 'hse' ? 'selected' : ''}>HSE — Health & Safety Executive</option>
+                <option value="ico" ${profile.regulatoryBody === 'ico' ? 'selected' : ''}>ICO — Data Protection</option>
+                <option value="caa" ${profile.regulatoryBody === 'caa' ? 'selected' : ''}>CAA — Civil Aviation</option>
+                <option value="ea" ${profile.regulatoryBody === 'ea' ? 'selected' : ''}>EA — Environment Agency</option>
+                <option value="ce-ukca" ${profile.regulatoryBody === 'ce-ukca' ? 'selected' : ''}>CE / UKCA Marking</option>
+                <option value="other" ${profile.regulatoryBody === 'other' ? 'selected' : ''}>Other regulatory body</option>
               </select>
             </div>
             <div class="form-group" style="display:flex; flex-direction:column; gap:var(--space-sm); padding-top:var(--space-lg);">
@@ -170,13 +177,28 @@ export function renderProfile() {
                 <input type="checkbox" id="uk-registered" ${profile.ukRegistered !== false ? 'checked' : ''} style="accent-color:var(--accent-primary);">
                 🇬🇧 UK Registered Company
               </label>
-              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
-                <input type="checkbox" id="nhs-partner" ${profile.hasNHSPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
-                🏥 NHS Partner / Clinical site
-              </label>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:var(--space-md);">
+            <label class="form-label">🤝 Partnership Status</label>
+            <p style="color:var(--text-muted); font-size:var(--font-xs); margin-bottom:var(--space-sm);">Select any active partnerships (improves eligibility for collaborative funds)</p>
+            <div style="display:flex; flex-wrap:wrap; gap:var(--space-md);">
               <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
                 <input type="checkbox" id="academic-partner" ${profile.hasAcademicPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
-                🎓 Academic / University Partner
+                🎓 Academic / University
+              </label>
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="clinical-partner" ${profile.hasClinicalPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🏥 Clinical / NHS
+              </label>
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="industry-partner" ${profile.hasIndustryPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🏭 Industry
+              </label>
+              <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-sm); cursor:pointer;">
+                <input type="checkbox" id="gov-partner" ${profile.hasGovPartner ? 'checked' : ''} style="accent-color:var(--accent-primary);">
+                🏛️ Government / Public Body
               </label>
             </div>
           </div>
@@ -230,9 +252,15 @@ export function afterRenderProfile() {
                 trl: trlVal ? parseInt(trlVal) : null,
                 companyAge: ageVal ? parseInt(ageVal) : null,
                 ukRegistered: document.getElementById('uk-registered')?.checked ?? true,
-                hasNHSPartner: document.getElementById('nhs-partner')?.checked ?? false,
+                regulatoryBody: document.getElementById('reg-body')?.value || 'none',
+                // Partnership status
                 hasAcademicPartner: document.getElementById('academic-partner')?.checked ?? false,
-                regulatoryStatus: document.getElementById('reg-status')?.value || 'none',
+                hasClinicalPartner: document.getElementById('clinical-partner')?.checked ?? false,
+                hasIndustryPartner: document.getElementById('industry-partner')?.checked ?? false,
+                hasGovPartner: document.getElementById('gov-partner')?.checked ?? false,
+                // Legacy compat
+                hasNHSPartner: document.getElementById('clinical-partner')?.checked ?? false,
+                regulatoryStatus: document.getElementById('reg-body')?.value !== 'none' ? 'pre-submission' : 'none',
             };
 
             saveProfile(profile);
